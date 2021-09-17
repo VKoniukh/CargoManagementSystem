@@ -21,6 +21,11 @@ public class UserController {
 
     private UserService userService;
 
+    @GetMapping("/")
+    public String homePage() {
+        return "home_page";
+    }
+
     @GetMapping("/users")
     public String findAll(Model model) {
         List<User> userList = userService.findAll();
