@@ -36,24 +36,24 @@ public class UserController {
     @PostMapping("/user_create")
     public String createUser(User user) {
         userService.saveUser(user);
-        return "redirect:/user";
+        return "redirect:/users";
     }
 
     @GetMapping("/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:/user";
+        return "redirect:/users";
     }
 
     @GetMapping("/user_update/{id}")
-    public String upadateUserForm(@PathVariable("id") Long id, Model model) {
+    public String updateUserForm(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         return "user_update";
     }
 
     @PostMapping("/user_update")
-    public String upadateUserForm(User user) {
+    public String updateUserForm(User user) {
         userService.saveUser(user);
         return "redirect:/users";
     }
