@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+
+<h1 th:inline="text">Hello User!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<div th:switch="${user}">
+    <h2 th:case="null">No users found!</h2>
+    <div th:case="*">
+        <h2>Your profile</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>User name</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+            </thead>
+            <tbody>
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.firstname}"></td>
+                <td th:text="${user.lastname}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.password}"></td>
+                <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>
+<!--                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

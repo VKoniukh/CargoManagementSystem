@@ -24,11 +24,8 @@ public class User {
     @Column(name= "active")
     private boolean active;
 
-    @Column(name= "roles")
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @Column(name= "first_name")
     private String firstname;
