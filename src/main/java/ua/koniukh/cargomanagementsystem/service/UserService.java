@@ -1,6 +1,7 @@
 package ua.koniukh.cargomanagementsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
@@ -31,5 +32,13 @@ public class UserService {
 
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User findByUsername(String username) {
+        User foundUser = userRepository.findByUsername(username);
+        if (foundUser == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return foundUser;
     }
 }

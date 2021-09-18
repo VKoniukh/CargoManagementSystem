@@ -1,14 +1,18 @@
 package ua.koniukh.cargomanagementsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -26,11 +30,19 @@ public class UserController {
         return "home_page";
     }
 
-    @GetMapping("/users")
-    public String findAll(Model model) {
-        List<User> userList = userService.findAll();
-        model.addAttribute("users", userList);
-        return "user_list";
+//    @GetMapping("/users")
+//    public String findAll(Model model, Authentication authentication) {
+//        UserDetails user = ((UserDetails) authentication.getPrincipal());
+//        List<User> userList = userService.findAll();
+//        model.addAttribute("users", userList);
+//        return "user_list";
+//    }
+
+    @GetMapping("/profile")
+    public String userProfile(Model model, Authentication authentication) {
+        UserDetails user = ((UserDetails) authentication.getPrincipal());
+        model.addAttribute("user", user);
+        return "profile";
     }
 
     @GetMapping("/user_create")
