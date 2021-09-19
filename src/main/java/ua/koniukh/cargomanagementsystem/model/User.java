@@ -2,12 +2,18 @@ package ua.koniukh.cargomanagementsystem.model;
 
 import lombok.Data;
 import javax.persistence.*;
-import java.util.Set;
+
+
 
 @Data
 @Entity
 @Table(name="users")
 public class User {
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ORDER_ID")
+    private Order primaryOrder;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

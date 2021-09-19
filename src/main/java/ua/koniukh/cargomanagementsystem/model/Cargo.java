@@ -3,17 +3,21 @@ package ua.koniukh.cargomanagementsystem.model;
 import javax.persistence.Column;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "cargos")
 public class Cargo {
 
-    @ManyToOne
-    @JoinColumn(name="order_id", nullable=false)
-    private Order order;
+    @OneToMany(mappedBy = "primaryCargo", fetch = FetchType.EAGER)
+    private Collection<Order> ordersCollection;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

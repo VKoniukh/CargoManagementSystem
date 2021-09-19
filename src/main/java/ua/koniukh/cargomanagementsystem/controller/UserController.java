@@ -8,12 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.service.UserService;
-
-import java.util.Collections;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -24,11 +20,6 @@ public class UserController {
     }
 
     private UserService userService;
-
-    @GetMapping("/")
-    public String homePage() {
-        return "home_page";
-    }
 
 //    @GetMapping("/users")
 //    public String findAll(Model model, Authentication authentication) {
@@ -41,25 +32,26 @@ public class UserController {
     @GetMapping("/profile")
     public String userProfile(Model model, Authentication authentication) {
         UserDetails user = ((UserDetails) authentication.getPrincipal());
-        model.addAttribute("user", user);
+        User user1 = userService.findByUsername(user.getUsername());
+        model.addAttribute("user", user1);
         return "profile";
     }
 
-    @GetMapping("/user_create")
-    public String createUserForm(User user) {
-        return ("user_create");
-    }
-
-    @PostMapping("/user_create")
-    public String createUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
-    }
+//    @GetMapping("/user_create")
+//    public String createUserForm(User user) {
+//        return ("user_create");
+//    }
+//
+//    @PostMapping("/user_create")
+//    public String createUser(User user) {
+//        userService.saveUser(user);
+//        return "redirect:/users";
+//    }
 
     @GetMapping("/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/login";
     }
 
     @GetMapping("/user_update/{id}")
@@ -72,7 +64,7 @@ public class UserController {
     @PostMapping("/user_update")
     public String updateUserForm(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/profile";
     }
 
 }

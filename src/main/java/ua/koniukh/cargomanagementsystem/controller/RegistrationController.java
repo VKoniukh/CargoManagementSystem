@@ -9,7 +9,6 @@ import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 
-import java.util.Collections;
 
 @Controller
 public class RegistrationController {
@@ -26,7 +25,7 @@ public class RegistrationController {
     public String registrationNewUser(User user, Model model){
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDb != null) {
+        if (userFromDb == null) {
             model.addAttribute("message","User exists!");
             return "registration";
         }

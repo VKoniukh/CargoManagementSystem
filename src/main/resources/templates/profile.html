@@ -34,7 +34,7 @@
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.password}"></td>
                 <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>
-<!--                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>-->
+                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
