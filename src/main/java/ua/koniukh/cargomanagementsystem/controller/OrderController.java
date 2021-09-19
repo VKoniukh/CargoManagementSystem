@@ -43,17 +43,20 @@ public class OrderController {
 
 
     @GetMapping("/order")
-    public String orderForm() {
-        return "order_page";
+    public String orderForm(Cargo cargщ) {
+        return "order_form";
     }
-
+//, Order order, Authentication authentication, Model model
     @PostMapping("/order")
-    public String makeNewOrder(Cargo cargo, Order order, Authentication authentication, Model model) {
+    public String makeNewOrder(Cargo cargo, Model model) {
         cargoRepository.save(cargo);
-        orderRepository.save(order);
-        UserDetails user = ((UserDetails) authentication.getPrincipal());
-        User user1 = userService.findByUsername(user.getUsername());
-        userRepository.save(user1);
-        return "redirect:/profile";
+//        orderRepository.save(order);
+//        UserDetails userDetails = ((UserDetails) authentication.getPrincipal());
+//        User user = userService.findByUsername(userDetails.getUsername());
+//        userRepository.save(user);
+//        model.addAttribute("user", user);
+        model.addAttribute("cargo", cargo);
+//        model.addAttribute("order",order);
+        return "redirect:/order_page";
     }
 }

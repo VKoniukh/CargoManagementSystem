@@ -25,11 +25,10 @@ public class RegistrationController {
     public String registrationNewUser(User user, Model model){
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDb == null) {
+        if (userFromDb != null) {
             model.addAttribute("message","User exists!");
             return "registration";
         }
-
         user.setActive(true);
         user.setRole(Role.USER);
         userRepository.save(user);

@@ -2,7 +2,8 @@ package ua.koniukh.cargomanagementsystem.model;
 
 import lombok.Data;
 import javax.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -10,9 +11,8 @@ import javax.persistence.*;
 @Table(name="users")
 public class User {
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ORDER_ID")
-    private Order primaryOrder;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

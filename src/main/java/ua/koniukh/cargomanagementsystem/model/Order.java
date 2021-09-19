@@ -17,23 +17,19 @@ import java.util.Set;
 @Table(name = "orders")
 public class Order {
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private Order primaryUser;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Cargo> cargos = new ArrayList<>();
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CARGO_ID")
-    private Cargo primaryCargo;
-
-    @OneToMany(mappedBy = "primaryOrder", fetch = FetchType.EAGER)
-    private Collection<User> usersCollection;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "price")
-    private int price;
+//    @Column(name = "price")
+//    private int price;
 
     @Column(name = "date")
     private int date;

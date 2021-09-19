@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Створити замовлення</title>
+</head>
+<body>
+<form action="#" th:action="@{/order}" th:object="${cargo}" method="post">
+    <label for="type">Type</label>
+    <input type="text" th:field="*{type}" id="type" placeholder="Type">
+    <label for="weight">Weight</label>
+    <input type="number" th:field="*{weight}" id="weight" placeholder="Weight">
+    <label for="length">Length</label>
+    <input type="number" th:field="*{length}" id="length" placeholder="Length">
+    <label for="height">Height</label>
+    <input type="number" th:field="*{height}" id="height" placeholder="Height">
+    <label for="width">Width</label>
+    <input type="number" th:field="*{width}" id="width" placeholder="Width">
+    <input type="submit" value="Створити замовлення">
+</form>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Створити замовлення</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div sec:authorize=”isAuthenticated()”>.-->
+<!--<form action="#" th:action="@{/order}" th:object="${cargo}" method="post">-->
+<!--    <label for="type">Type</label>-->
+<!--    <input type="text" th:field="*{type}" id="type" placeholder="Type">-->
+<!--    <label for="weight">Weight</label>-->
+<!--    <input type="text" th:field="*{weight}" id="weight" placeholder="Weight">-->
+<!--    <label for="length">Length</label>-->
+<!--    <input type="text" th:field="*{length}" id="length" placeholder="Length">-->
+<!--    <label for="height">Password</label>-->
+<!--    <input type="text" th:field="*{height}" id="height" placeholder="Height">-->
+<!--    <label for="width">Width</label>-->
+<!--    <input type="text" th:field="*{width}" id="width" placeholder="Width">-->
+<!--    &lt;!&ndash;    <input type="submit" value="Create User">&ndash;&gt;-->
+<!--</form>-->
+
+<!--    <br />-->
+
+<!--<form action="#" th:action="@{/order}" th:object="${order}" method="post">-->
+<!--    <select name="orderRate">-->
+<!--        <option th:each="orderRateOpt : ${T(ua.koniukh.cargomanagementsystem.model;-->
+<!--OrderRate).values()}"-->
+<!--                th:value="${orderRateOpt}" th:text="${orderRateOpt}"></option>-->
+<!--    </select>-->
+
+<!--    <select name="routeFrom">-->
+<!--        <option th:each="routeFromOpt : ${T(ua.koniukh.cargomanagementsystem.model;-->
+<!--Route).values()}"-->
+<!--                th:value="${routeFromOpt}" th:text="${routeFromOpt}"></option>-->
+<!--    </select>-->
+
+<!--    <select name="routeTo">-->
+<!--        <option th:each="routeToOpt : ${T(ua.koniukh.cargomanagementsystem.model;-->
+<!--Route).values()}"-->
+<!--                th:value="${routeToOpt}" th:text="${routeToOpt}"></option>-->
+<!--    </select>-->
+
+<!--    <label for="date">Date (dd.mm.yyyy)</label>-->
+<!--    <input type="text" th:field="*{date}" id="date" placeholder="Date">-->
+<!--</form>-->
+<!--<input type="submit" value="Створити замовлення">-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
