@@ -1,11 +1,13 @@
 package ua.koniukh.cargomanagementsystem.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.Order;
@@ -43,20 +45,27 @@ public class OrderController {
 
 
     @GetMapping("/order")
-    public String orderForm(Cargo cargщ) {
+    public String orderForm(Model model) {
+        Cargo cargo = new Cargo();
+        Order order = new Order();
+        model.addAttribute("cargo", cargo);
+        model.addAttribute("order", order);
         return "order_form";
     }
-//, Order order, Authentication authentication, Model model
+
     @PostMapping("/order")
-    public String makeNewOrder(Cargo cargo, Model model) {
-        cargoRepository.save(cargo);
-//        orderRepository.save(order);
-//        UserDetails userDetails = ((UserDetails) authentication.getPrincipal());
-//        User user = userService.findByUsername(userDetails.getUsername());
+    public String makeNewOrder(@ModelAttribute Order order, Authentication authentication, Model model) {
+        UserDetails userDetails = ((UserDetails) authentication.getPrincipal());
+        User user = userService.findByUsername(userDetails.getUsername());
+        order.setUser(user);
+        cargoService.saveCargo(order.getCargo());
+        orderService.saveOrder(order);
+
+
 //        userRepository.save(user);
 //        model.addAttribute("user", user);
-        model.addAttribute("cargo", cargo);
-//        model.addAttribute("order",order);
+//        model.addAttribute("cargo", cargo);
+        model.addAttribute("order",order);
         return "redirect:/order_page";
     }
 }

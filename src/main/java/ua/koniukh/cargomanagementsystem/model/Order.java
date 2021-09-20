@@ -3,22 +3,24 @@ package ua.koniukh.cargomanagementsystem.model;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "orders")
 public class Order {
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Cargo> cargos = new ArrayList<>();
+    @OneToOne
+    private Cargo cargo;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -31,8 +33,10 @@ public class Order {
 //    @Column(name = "price")
 //    private int price;
 
+
+//todo change to LocalDateTime format
     @Column(name = "date")
-    private int date;
+    private String date;
 
 //    @Column(name = "active")
 //    private boolean active;

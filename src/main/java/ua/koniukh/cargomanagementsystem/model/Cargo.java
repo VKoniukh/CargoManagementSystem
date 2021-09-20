@@ -4,6 +4,7 @@ import javax.persistence.Column;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,13 +12,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "cargos")
 public class Cargo {
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @OneToOne(mappedBy = "cargo", cascade = CascadeType.ALL)
     private Order order;
 
     @Id

@@ -8,33 +8,33 @@
 
 <h1 th:inline="text">Ваші замовлення</h1>
 
-<!--<div th:switch="${order}">-->
-<!--    <h2 th:case="null">Замовлень не знайдено</h2>-->
-<!--    <div th:case="*">-->
-<!--        <h2>Інформація про замовлення</h2>-->
-<!--        <table>-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th>Id</th>-->
-<!--                <th>Date</th>-->
-<!--                <th>Rate</th>-->
-<!--                <th>From</th>-->
-<!--                <th>To</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr th:each="order : ${order}">-->
-<!--                <td th:text="${order.id}"></td>-->
-<!--                <td th:text="${order.date}"></td>-->
-<!--                <td th:text="${order.orderRate}"></td>-->
-<!--                <td th:text="${cargo.routeFrom}"></td>-->
-<!--                <td th:text="${cargo.routeTo}"></td>-->
-<!--                &lt;!&ndash;                <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>&ndash;&gt;-->
-<!--                &lt;!&ndash;                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>&ndash;&gt;-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </div>-->
+<div th:switch="${order}">
+    <h2 th:case="null">Замовлень не знайдено</h2>
+    <div th:case="*">
+        <h2>Інформація про замовлення</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Rate</th>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            </thead>
+            <tbody>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.date}"></td>
+                <td th:text="${order.orderRate}"></td>
+                <td th:text="${cargo.routeFrom}"></td>
+                <td th:text="${cargo.routeTo}"></td>
+                <!--                <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>-->
+                <!--                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <div th:switch="${cargo}">
     <h2 th:case="null">Вантажів не знайдено</h2>
@@ -52,7 +52,6 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="cargo : ${order}">
                 <td th:text="${cargo.id}"></td>
                 <td th:text="${cargo.type}"></td>
                 <td th:text="${cargo.weight}"></td>
