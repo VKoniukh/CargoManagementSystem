@@ -1,9 +1,10 @@
 package ua.koniukh.cargomanagementsystem.service;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
-import ua.koniukh.cargomanagementsystem.model.Order;
+import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.repository.CargoRepository;
 
 import java.util.List;
@@ -32,5 +33,18 @@ public class CargoService {
 
     public void deleteById(Long id) {
         cargoRepository.deleteById(id);
+    }
+
+    public Cargo createCargo(@NotNull CargoDTO cargoDTO) {
+        Cargo cargo = Cargo.builder()
+                .type(cargoDTO.getType())
+                .weight(cargoDTO.getWeight())
+                .length(cargoDTO.getLength())
+                .height(cargoDTO.getHeight())
+//               .active(true)
+                .build();
+
+        saveCargo(cargo);
+        return cargo;
     }
 }

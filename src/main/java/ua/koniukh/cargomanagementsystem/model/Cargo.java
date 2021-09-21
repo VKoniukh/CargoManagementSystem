@@ -2,10 +2,8 @@ package ua.koniukh.cargomanagementsystem.model;
 
 import javax.persistence.Column;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,8 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
 @Entity
+@Builder
+@Data
 @Table(name = "cargos")
 public class Cargo {
 
@@ -39,4 +39,12 @@ public class Cargo {
 
     @Column(name = "width")
     private int width;
+
+    public Cargo(CargoDTO cargoDTO) {
+        this.type = cargoDTO.getType();
+        this.weight = cargoDTO.getWeight();
+        this.length = cargoDTO.getLength();
+        this.height = cargoDTO.getHeight();
+        this.width = cargoDTO.getWidth();
+    }
 }

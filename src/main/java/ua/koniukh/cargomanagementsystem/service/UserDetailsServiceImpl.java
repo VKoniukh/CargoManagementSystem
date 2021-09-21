@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.config.UserDetailsImpl;
 import ua.koniukh.cargomanagementsystem.model.User;
 
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

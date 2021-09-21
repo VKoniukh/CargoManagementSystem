@@ -1,21 +1,18 @@
 package ua.koniukh.cargomanagementsystem.model;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
 
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
 @Entity
+@Builder
+@Data
 @Table(name = "orders")
 public class Order {
 
@@ -34,9 +31,9 @@ public class Order {
 //    private int price;
 
 
-//todo change to LocalDateTime format
-    @Column(name = "date")
-    private String date;
+//    //todo change to LocalDateTime format
+//    @Column(name = "date")
+//    private LocalDate date;
 
 //    @Column(name = "active")
 //    private boolean active;
@@ -55,18 +52,4 @@ public class Order {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Route routeTo;
-
-//    @Column(name = "cargo")
-//    @ElementCollection(targetClass = Cargo.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "cargo", joinColumns = @JoinColumn(name =))
-//    private Set<Cargo> cargo;
-
-// TODO connection with user
-
-//    @Column(name= "roles")
-//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-//    private Set<Role> roles;
-
 }
