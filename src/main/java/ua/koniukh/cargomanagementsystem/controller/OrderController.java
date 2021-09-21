@@ -3,7 +3,6 @@ package ua.koniukh.cargomanagementsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.Order;
-import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.service.CargoService;
@@ -47,10 +45,9 @@ public class OrderController {
         Cargo cargo = new Cargo(orderDTO.getCargoDTO());
         cargoService.saveCargo(cargo);
         Order order = orderService.createOrder2(orderService.createOrder1(orderDTO), cargo, authentication, orderDTO);
-//        userRepository.save(user);
-//        model.addAttribute("user", user);
-//        model.addAttribute("cargo", cargo);
+
         model.addAttribute("order", order);
+        model.addAttribute("cargo", cargo);
         return "/order_page";
     }
 }

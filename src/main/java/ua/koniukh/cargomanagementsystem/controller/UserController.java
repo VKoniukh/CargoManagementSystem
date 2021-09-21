@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
-import java.util.Optional;
-
 @Controller
 public class UserController {
 

@@ -27,7 +27,7 @@ public class CargoService {
         return cargoRepository.findAll();
     }
 
-    public Cargo saveCargo (Cargo cargo) {
+    public Cargo saveCargo(Cargo cargo) {
         return cargoRepository.save(cargo);
     }
 

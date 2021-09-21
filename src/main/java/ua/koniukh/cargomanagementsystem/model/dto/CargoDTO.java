@@ -1,16 +1,9 @@
 package ua.koniukh.cargomanagementsystem.model.dto;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.koniukh.cargomanagementsystem.model.OrderRate;
-import ua.koniukh.cargomanagementsystem.model.Route;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Builder
 @Data

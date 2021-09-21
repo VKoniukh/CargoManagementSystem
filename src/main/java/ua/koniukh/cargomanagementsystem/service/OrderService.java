@@ -8,6 +8,7 @@ import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.OrderRepository;
+
 import java.util.List;
 
 @Service
@@ -32,7 +33,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void saveOrder (Order order) {
+    public void saveOrder(Order order) {
         orderRepository.save(order);
     }
 

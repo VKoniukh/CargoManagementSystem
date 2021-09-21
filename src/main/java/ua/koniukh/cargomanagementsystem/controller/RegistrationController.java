@@ -9,8 +9,6 @@ import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.UserDTO;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
-import java.util.Optional;
-
 @Controller
 public class RegistrationController {
 
@@ -24,6 +22,8 @@ public class RegistrationController {
     public String registration() {
         return "registration";
     }
+
+    //todo checking possibility to create ac with same param
 
     @PostMapping("/registration")
     public String registrationNewUser(@ModelAttribute UserDTO userDTO, Model model) {

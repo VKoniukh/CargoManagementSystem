@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.OrderRate;
 import ua.koniukh.cargomanagementsystem.model.Route;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 

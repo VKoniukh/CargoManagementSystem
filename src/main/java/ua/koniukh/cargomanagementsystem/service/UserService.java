@@ -11,7 +11,7 @@ import ua.koniukh.cargomanagementsystem.model.dto.UserDTO;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserService {

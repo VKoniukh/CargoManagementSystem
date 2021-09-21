@@ -6,9 +6,7 @@ import lombok.*;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
