@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.Order;
+import ua.koniukh.cargomanagementsystem.model.OrderRate;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.service.CargoService;
@@ -43,11 +44,15 @@ public class OrderController {
     @PostMapping("/order")
     public String makeNewOrder(@ModelAttribute OrderDTO orderDTO, Authentication authentication, Model model) {
         Cargo cargo = new Cargo(orderDTO.getCargoDTO());
+        if (orderDTO.getOrderRate() == OrderRate.CORRESPONDENCE) {
+            cargo.setCorrespondence(true);
+        } else {
+            cargo.setBase(true);
+        }
         cargoService.saveCargo(cargo);
-        Order order = orderService.createOrder2(orderService.createOrder1(orderDTO), cargo, authentication, orderDTO);
+        Order order = orderService.createOrder1(cargo, authentication, orderDTO);
 
-        model.addAttribute("order", order);
-        model.addAttribute("cargo", cargo);
-        return "/order_page";
+//        Order order = orderService.createOrder2(orderService.createOrder1(orderDTO), cargo, authentication, orderDTO);
+        return "redirect:/order_page";
     }
 }

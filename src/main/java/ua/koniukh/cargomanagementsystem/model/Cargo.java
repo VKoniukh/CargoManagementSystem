@@ -23,8 +23,9 @@ public class Cargo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "type")
-    private String type;
+    private boolean base;
+
+    private boolean correspondence;
 
     @Column(name = "weight")
     private int weight;
@@ -39,7 +40,6 @@ public class Cargo {
     private int width;
 
     public Cargo(CargoDTO cargoDTO) {
-        this.type = cargoDTO.getType();
         this.weight = cargoDTO.getWeight();
         this.length = cargoDTO.getLength();
         this.height = cargoDTO.getHeight();

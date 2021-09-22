@@ -9,6 +9,8 @@ import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.OrderRepository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -37,31 +39,35 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-//    public LocalDate dateFormat(String s) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu");
-//        LocalDate lt = LocalDate.parse(s, formatter);
-//        return lt;
-//    }
-
-    public Order createOrder1(@NotNull OrderDTO orderDTO) {
+    public Order createOrder1(@NotNull Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
         Order order = Order.builder()
+                .user(userService.getCurrentUser(authentication))
+                .cargo(cargo)
+                .date(LocalDate.parse(orderDTO.getDate()))
+                .type(orderDTO.getType())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
                 .routeTo(orderDTO.getRouteTo())
 //               .active(true)
                 .build();
 
-        return order;
-    }
-
-    public Order createOrder2(Order order, Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
-        order.setUser(userService.getCurrentUser(authentication));
-        order.setCargo(cargo);
+//        order.setUser(userService.getCurrentUser(authentication));
+//        order.setCargo(cargo);
 //        order.setDate(LocalDate.parse(orderDTO.getDate()));
-
+//
         saveOrder(order);
+
         return order;
     }
+
+//    public Order createOrder2(Order order, Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
+//        order.setUser(userService.getCurrentUser(authentication));
+//        order.setCargo(cargo);
+//        order.setDate(LocalDate.parse(orderDTO.getDate()));
+//
+//        saveOrder(order);
+//        return order;
+//    }
 
     public void deleteById(Long id) {
         orderRepository.deleteById(id);

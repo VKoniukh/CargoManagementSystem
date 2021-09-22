@@ -21,6 +21,8 @@ public class OrderDTO {
 
     private String date;
 
+    private String type;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private OrderRate orderRate;

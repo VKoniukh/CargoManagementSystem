@@ -8,7 +8,7 @@
 
 <h1 th:inline="text">Ваші замовлення</h1>
 
-<div th:switch="${order}">
+<div th:switch="${orders}">
     <h2 th:case="null">Замовлень не знайдено</h2>
     <div th:case="*">
         <h2>Інформація про замовлення</h2>
@@ -23,6 +23,7 @@
             </tr>
             </thead>
             <tbody>
+            <tr th:each="order : ${orders}">
                 <td th:text="${order.id}"></td>
                 <td th:text="${order.date}"></td>
                 <td th:text="${order.orderRate}"></td>
@@ -33,6 +34,7 @@
             </tr>
             </tbody>
         </table>
+        <p><a href="/profile">Мій профіль</a></p>
     </div>
 </div>
 

@@ -37,7 +37,6 @@ public class CargoService {
 
     public Cargo createCargo(@NotNull CargoDTO cargoDTO) {
         Cargo cargo = Cargo.builder()
-                .type(cargoDTO.getType())
                 .weight(cargoDTO.getWeight())
                 .length(cargoDTO.getLength())
                 .height(cargoDTO.getHeight())

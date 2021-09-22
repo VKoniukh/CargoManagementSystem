@@ -25,16 +25,17 @@ public class Order {
     private User user;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
 //    @Column(name = "price")
 //    private int price;
 
+    @Column(name = "date")
+    private LocalDate date;
 
-//    //todo change to LocalDateTime format
-//    @Column(name = "date")
-//    private LocalDate date;
+    @Column(name = "type")
+    private String type;
 
 //    @Column(name = "active")
 //    private boolean active;

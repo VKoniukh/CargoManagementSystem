@@ -8,8 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.User;
+import ua.koniukh.cargomanagementsystem.service.OrderService;
 import ua.koniukh.cargomanagementsystem.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -20,14 +24,14 @@ public class UserController {
     }
 
     private UserService userService;
+    private OrderService orderService;
 
-//    @GetMapping("/users")
-//    public String findAll(Model model, Authentication authentication) {
-//        UserDetails user = ((UserDetails) authentication.getPrincipal());
-//        List<User> userList = userService.findAll();
-//        model.addAttribute("users", userList);
-//        return "user_list";
-//    }
+    @GetMapping("/order_page")
+    public String showUserOrders (Model model, Authentication authentication) {
+        List<Order> orderList = userService.getCurrentUserOrderList(authentication);
+        model.addAttribute("orders", orderList);
+        return "order_page";
+    }
 
     @GetMapping("/profile")
     public String userProfile(Model model, Authentication authentication) {
@@ -63,7 +67,7 @@ public class UserController {
 
     @PostMapping("/user_update")
     public String updateUserForm(User user) {
-        userService.saveUser(user);
+        userService.updateUser(user);
         return "redirect:/profile";
     }
 

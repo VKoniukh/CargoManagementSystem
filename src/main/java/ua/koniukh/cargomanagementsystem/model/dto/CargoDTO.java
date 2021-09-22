@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CargoDTO {
 
-    private String type;
-
     private int weight;
 
     private int length;
