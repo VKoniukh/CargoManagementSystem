@@ -9,6 +9,7 @@ import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.OrderRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,13 +19,12 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final UserService userService;
-    private final CargoService cargoService;
+    private final PriceService priceService;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository, UserService userService, CargoService cargoService) {
+    public OrderService(OrderRepository orderRepository, UserService userService, PriceService priceService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
-        this.cargoService = cargoService;
+        this.priceService = priceService;
     }
 
     public Order findById(Long id) {
@@ -39,35 +39,44 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order createOrder1(@NotNull Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
+    public Order createBaseOrder(@NotNull Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
         Order order = Order.builder()
                 .user(userService.getCurrentUser(authentication))
                 .cargo(cargo)
                 .date(LocalDate.parse(orderDTO.getDate()))
+                .packing(orderDTO.isPacking())
+                .declaredValue(orderDTO.getDeclaredValue())
+                .price(priceService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
                 .routeTo(orderDTO.getRouteTo())
-//               .active(true)
                 .build();
 
-//        order.setUser(userService.getCurrentUser(authentication));
-//        order.setCargo(cargo);
-//        order.setDate(LocalDate.parse(orderDTO.getDate()));
-//
         saveOrder(order);
 
         return order;
     }
 
-//    public Order createOrder2(Order order, Cargo cargo, Authentication authentication, OrderDTO orderDTO) {
-//        order.setUser(userService.getCurrentUser(authentication));
-//        order.setCargo(cargo);
-//        order.setDate(LocalDate.parse(orderDTO.getDate()));
-//
-//        saveOrder(order);
-//        return order;
-//    }
+    public Order createOrder(@NotNull Authentication authentication, OrderDTO orderDTO) {
+        Order order = Order.builder()
+                .user(userService.getCurrentUser(authentication))
+                .cargo(null)
+                .date(LocalDate.parse(orderDTO.getDate()))
+                .packing(orderDTO.isPacking())
+                .declaredValue(orderDTO.getDeclaredValue())
+                .price(priceService.calculatePrice(orderDTO))
+                .type(orderDTO.getType())
+                .orderRate(orderDTO.getOrderRate())
+                .routeFrom(orderDTO.getRouteFrom())
+                .routeTo(orderDTO.getRouteTo())
+                .build();
+
+        saveOrder(order);
+
+        return order;
+    }
+
 
     public void deleteById(Long id) {
         orderRepository.deleteById(id);

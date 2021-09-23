@@ -40,6 +40,7 @@ public class CargoService {
                 .weight(cargoDTO.getWeight())
                 .length(cargoDTO.getLength())
                 .height(cargoDTO.getHeight())
+                .width(cargoDTO.getWidth())
 //               .active(true)
                 .build();
 

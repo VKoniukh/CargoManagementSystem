@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -28,20 +29,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(name = "price")
-//    private int price;
+    private double price;
 
-    @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "type")
     private String type;
 
-//    @Column(name = "active")
-//    private boolean active;
-//
-//    @Column(name = "packing")
-//    private boolean packing;
+    private double declaredValue;
+
+    private boolean packing;
 
     @NotNull
     @Enumerated(EnumType.STRING)

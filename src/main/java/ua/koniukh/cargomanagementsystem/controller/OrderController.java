@@ -43,16 +43,13 @@ public class OrderController {
 
     @PostMapping("/order")
     public String makeNewOrder(@ModelAttribute OrderDTO orderDTO, Authentication authentication, Model model) {
-        Cargo cargo = new Cargo(orderDTO.getCargoDTO());
-        if (orderDTO.getOrderRate() == OrderRate.CORRESPONDENCE) {
-            cargo.setCorrespondence(true);
-        } else {
-            cargo.setBase(true);
+        if (orderDTO.getOrderRate() == OrderRate.BASE) {
+            Cargo cargo = new Cargo(orderDTO.getCargoDTO());
+            cargoService.saveCargo(cargo);
+            Order order = orderService.createBaseOrder(cargo, authentication, orderDTO);
+        } else if (orderDTO.getOrderRate() == OrderRate.CORRESPONDENCE) {
+            Order order = orderService.createOrder(authentication, orderDTO);
         }
-        cargoService.saveCargo(cargo);
-        Order order = orderService.createOrder1(cargo, authentication, orderDTO);
-
-//        Order order = orderService.createOrder2(orderService.createOrder1(orderDTO), cargo, authentication, orderDTO);
         return "redirect:/order_page";
     }
 }

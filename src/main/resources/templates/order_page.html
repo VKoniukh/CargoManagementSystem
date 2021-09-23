@@ -20,6 +20,7 @@
                 <th>Rate</th>
                 <th>From</th>
                 <th>To</th>
+                <th>To</th>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +30,7 @@
                 <td th:text="${order.orderRate}"></td>
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.price}"> UAH</td>
                 <!--                <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>-->
                 <!--                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>-->
             </tr>

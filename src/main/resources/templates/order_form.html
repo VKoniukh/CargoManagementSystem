@@ -7,24 +7,10 @@
 <body>
 
 <form action="/order" th:object="${order}" method="POST">
+
     <label for="date">Date (dd.mm.yyyy)</label>
     <input type="date" th:field="*{date}" id="date" placeholder="Date">
     <h1 th:inline="text">Для кореспонденции не нужно заполнять поля с габаритами.</h1>
-    <select name="orderRate">
-        <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
-                  th:value="${orderRate}" th:text="${orderRate}">
-        </option>
-    </select>
-
-<!--    todo-->
-<!--    <td th:switch="${widget.orderRate}">-->
-<!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
-<!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).BASE}"> Заполните поля с габаритами.</span>-->
-<!--    </td>-->
-<!--    <div th:switch="${widget.orderRate}">-->
-<!--    <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}"-->
-<!--          style="color: red;">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
-<!--    </div>-->
 
     <select name="routeFrom">
         <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
@@ -37,6 +23,33 @@
                 th:value="${routeTo}" th:text="${routeTo}">
         </option>
     </select>
+
+    <select name="orderRate">
+        <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
+                th:value="${orderRate}" th:text="${orderRate}">
+        </option>
+    </select>
+
+    <label for="declaredValue">Заявлена вартість</label>
+    <input type="number" th:field="*{declaredValue}" id="declaredValue" placeholder="Declared Valuee">
+
+    <label for="packing">Пакування</label>
+    <input type="checkbox" th:field="*{packing}" id="packing" placeholder="packing" value="true">
+
+
+
+
+
+<!--    todo-->
+<!--    <td th:switch="${widget.orderRate}">-->
+<!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
+<!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).BASE}"> Заполните поля с габаритами.</span>-->
+<!--    </td>-->
+<!--    <div th:switch="${widget.orderRate}">-->
+<!--    <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}"-->
+<!--          style="color: red;">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
+<!--    </div>-->
+
     <label for="Type">Type</label>
     <input type="text" th:field="*{type}" id="type"/>
     <label for="weight">weight</label>

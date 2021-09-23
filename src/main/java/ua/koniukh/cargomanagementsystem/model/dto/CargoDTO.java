@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CargoDTO {
 
-    private int weight;
+    private double weight;
 
-    private int length;
+    private double length;
 
-    private int height;
+    private double height;
 
-    private int width;
+    private double width;
 }

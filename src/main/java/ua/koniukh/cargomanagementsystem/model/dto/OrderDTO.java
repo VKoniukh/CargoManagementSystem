@@ -23,6 +23,10 @@ public class OrderDTO {
 
     private String type;
 
+    private boolean packing;
+
+    private double declaredValue;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private OrderRate orderRate;

@@ -23,21 +23,13 @@ public class Cargo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private boolean base;
+    private double weight;
 
-    private boolean correspondence;
+    private double length;
 
-    @Column(name = "weight")
-    private int weight;
+    private double height;
 
-    @Column(name = "length")
-    private int length;
-
-    @Column(name = "height")
-    private int height;
-
-    @Column(name = "width")
-    private int width;
+    private double width;
 
     public Cargo(CargoDTO cargoDTO) {
         this.weight = cargoDTO.getWeight();
