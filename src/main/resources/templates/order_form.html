@@ -6,10 +6,12 @@
 </head>
 <body>
 
-<form action="/order" th:object="${order}" method="POST">
+<form action="#" th:action="@{/order}" th:object="${orderDTO}" method="post">
 
     <label for="date">Date (dd.mm.yyyy)</label>
     <input type="date" th:field="*{date}" id="date" placeholder="Date">
+    <div style="color:red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Name Error</div>
+    <br/>
     <h1 th:inline="text">Для кореспонденции не нужно заполнять поля с габаритами.</h1>
 
     <select name="routeFrom">
@@ -52,6 +54,8 @@
 
     <label for="Type">Type</label>
     <input type="text" th:field="*{type}" id="type"/>
+    <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error</div>
+    <br/>
     <label for="weight">weight</label>
     <input type="number" th:field="*{cargoDTO.weight}" id="weight"/>
     <label for="length">length</label>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -15,9 +16,22 @@ Registration new user
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
+<form action="#" th:action="@{/registration}" method="post" th:object="${userDTO}">
+    <label for="username">Enter name: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
+    <br/>
+    <label for="username">Enter name: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
+    <br/>
+
+<!--    <div><label> User Name : <input type="text" name="username"/> </label></div>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>-->
+<!--    <br/>-->
+<!--    <div><label> Password: <input type="password" name="password"/> </label></div>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>-->
+<!--    <br/>-->
 <!--    <div><label> Email : <input type="text" name="email"/> </label></div>-->
     <div><input type="submit" value="Sign In"/></div>
 </form>

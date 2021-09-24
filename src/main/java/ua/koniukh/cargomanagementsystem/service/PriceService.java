@@ -5,115 +5,114 @@ import ua.koniukh.cargomanagementsystem.model.OrderRate;
 import ua.koniukh.cargomanagementsystem.model.Route;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 
+import java.math.BigDecimal;
+
 @Service
 public class PriceService {
 
-    public double weightToPrice(double weightValue) {
+    public BigDecimal weightToPrice(double weightValue) {
         double interimResult;
-        double result;
+        BigDecimal priceResult = BigDecimal.valueOf(0);
         if (weightValue <= 2) {
-            return result = 40;
-        } else if (weightValue <= 5) {
-            return result = 50;
+            return priceResult = BigDecimal.valueOf(30);
         } else if (weightValue <= 10) {
-            return result = 60;
-        } else if (weightValue <= 20) {
-            return result = 70;
-        } else if (weightValue < 35) {
-            return result = 80;
-        } else if (weightValue > 36) {
-            interimResult = 80;
+            return priceResult = BigDecimal.valueOf(35);
+        } else if (weightValue <= 15) {
+            return priceResult = BigDecimal.valueOf(40);
+        } else if (weightValue <= 25) {
+            return priceResult = BigDecimal.valueOf(45);
+        } else if (weightValue < 40) {
+            return priceResult = BigDecimal.valueOf(50);
+        } else if (weightValue > 41) {
+            interimResult = 50;
             do {
-                interimResult = +1.5;
+                interimResult += 1.5;
                 weightValue++;
-            } while (weightValue < 100);
-            return result = interimResult;
+            } while (weightValue < 200);
+            return priceResult = BigDecimal.valueOf(interimResult);
         } else
-            return result = 1000;
+            return priceResult = BigDecimal.valueOf(1000);
     }
 
-    public double calculatePrice(OrderDTO orderDTO) {
+    public BigDecimal calculatePrice(OrderDTO orderDTO) {
 
         double length;
         double height;
         double width;
         double weight;
-        double price = 0;
+        double dimensionalWeight;
+        BigDecimal price = BigDecimal.valueOf(0);
 
         if (orderDTO.getOrderRate() == OrderRate.BASE) {
             length = orderDTO.getCargoDTO().getLength();
             height = orderDTO.getCargoDTO().getHeight();
             width = orderDTO.getCargoDTO().getWidth();
             weight = orderDTO.getCargoDTO().getWeight();
-            double dimensionalWeight = length * width * height / 5000;
+            dimensionalWeight = length * width * height / 5000;
 
             if (dimensionalWeight > weight) {
-                return price = routeToPrice(orderDTO) + weightToPrice(dimensionalWeight) + packingCheck(orderDTO) + declaredValueCheck(orderDTO);
+                return price = routeToPrice(orderDTO).add(weightToPrice(dimensionalWeight).add(packingCheck(orderDTO).add(declaredValueCheck(orderDTO))));
             } else if (weight > dimensionalWeight || weight == dimensionalWeight) {
-                return price = routeToPrice(orderDTO) + weightToPrice(weight) + packingCheck(orderDTO) + declaredValueCheck(orderDTO);
+                return price = routeToPrice(orderDTO).add(weightToPrice(weight).add(packingCheck(orderDTO).add(declaredValueCheck(orderDTO))));
             }
 
         } else if (orderDTO.getOrderRate() == OrderRate.CORRESPONDENCE) {
-            return price = routeToPrice(orderDTO) + packingCheck(orderDTO) + declaredValueCheck(orderDTO);
+            return price = routeToPrice(orderDTO).add(packingCheck(orderDTO).add(declaredValueCheck(orderDTO)));
         } else
-            return price = 1000;
+            return price = BigDecimal.valueOf(1000);
 
         return price;
     }
 
-    public double packingCheck(OrderDTO orderDTO) {
-        double price = 0;
+    public BigDecimal packingCheck(OrderDTO orderDTO) {
+        BigDecimal priceResult = BigDecimal.valueOf(0);
         if (orderDTO.isPacking()) {
-            return price + 10;
+            return priceResult = BigDecimal.valueOf(10);
         } else
-            return price;
+            return priceResult;
     }
 
 
-    public double declaredValueCheck(OrderDTO orderDTO) {
-        double price = 0;
+    public BigDecimal declaredValueCheck(OrderDTO orderDTO) {
+        BigDecimal priceResult = BigDecimal.valueOf(0);
         if (orderDTO.getDeclaredValue() != 0) {
-            return price + orderDTO.getDeclaredValue() * 0.01;
+            return priceResult = BigDecimal.valueOf(orderDTO.getDeclaredValue() * 0.005);
         } else
-            return price;
+            return priceResult;
     }
 
-    public double routeToPrice(OrderDTO orderDTO) {
-        Route routeFrom = orderDTO.getRouteFrom();
-        Route routeTo = orderDTO.getRouteTo();
-        int from = routeFrom.getDeliveryZone();
-        int to = routeTo.getDeliveryZone();
-        double routeFromPrice = 0;
-        double routeToPrice = 0;
-        double routePrice = 0;
+    public BigDecimal routeToPrice(OrderDTO orderDTO) {
+        BigDecimal priceFrom = BigDecimal.valueOf(0);
+        BigDecimal priceTo = BigDecimal.valueOf(0);
+        BigDecimal priceResult = BigDecimal.valueOf(0);
 
-        switch (from) {
+        switch (orderDTO.getRouteFrom().getDeliveryZone()) {
             case 1:
-                routeFromPrice = 5;
+                priceFrom = BigDecimal.valueOf(5);
                 break;
             case 2:
-                routeFromPrice = 10;
+                priceFrom = BigDecimal.valueOf(10);
                 break;
             case 3:
-                routeFromPrice = 15;
+                priceFrom = BigDecimal.valueOf(15);
                 break;
             default:
                 break;
         }
 
-        switch (to) {
+        switch (orderDTO.getRouteTo().getDeliveryZone()) {
             case 1:
-                routeToPrice += 5;
+                priceTo = BigDecimal.valueOf(5);
                 break;
             case 2:
-                routeToPrice = 10;
+                priceTo = BigDecimal.valueOf(10);
                 break;
             case 3:
-                routeToPrice = 15;
+                priceTo = BigDecimal.valueOf(15);
                 break;
             default:
                 break;
         }
-        return routePrice = routeFromPrice + routeToPrice;
+        return priceResult = priceFrom.add(priceTo);
     }
 }

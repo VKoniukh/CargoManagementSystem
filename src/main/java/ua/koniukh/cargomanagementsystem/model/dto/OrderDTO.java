@@ -10,6 +10,10 @@ import ua.koniukh.cargomanagementsystem.model.Route;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -19,8 +23,10 @@ public class OrderDTO {
 
     private CargoDTO cargoDTO;
 
+    @NotEmpty(message = "Date should not be empty")
     private String date;
 
+    @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
     private String type;
 
     private boolean packing;
