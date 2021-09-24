@@ -20,11 +20,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final PriceService priceService;
+    private final CargoService cargoService;
 
-    public OrderService(OrderRepository orderRepository, UserService userService, PriceService priceService) {
+    public OrderService(OrderRepository orderRepository, UserService userService, PriceService priceService, CargoService cargoService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.priceService = priceService;
+        this.cargoService = cargoService;
     }
 
     public Order findById(Long id) {
@@ -77,8 +79,10 @@ public class OrderService {
         return order;
     }
 
-
     public void deleteById(Long id) {
+        if (findById(id).getCargo().getId() != 0) {
+            cargoService.deleteById(findById(id).getCargo().getId());
+        }
         orderRepository.deleteById(id);
     }
 }

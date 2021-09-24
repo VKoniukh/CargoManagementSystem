@@ -31,12 +31,14 @@
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
                 <td th:text="${order.price}"></td>
-                <!--                <td><a th:href="@{user_update/{id}(id=${user.id})}">Edit</a></td>-->
-                <!--                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>-->
+
+<!--                //todo deleting functional-->
+<!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->
             </tr>
             </tbody>
         </table>
         <p><a href="/profile">Мій профіль</a></p>
+        <p><a href="/order">Оформити замовлення</a> </p>
     </div>
 </div>
 

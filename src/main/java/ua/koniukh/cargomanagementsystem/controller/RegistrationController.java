@@ -26,7 +26,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    //todo checking possibility to create ac with same param
+    //todo checking possibility to create ac with same param!!!!
 
     @PostMapping("/registration")
     public String registrationNewUser(@Valid UserDTO userDTO, BindingResult bindingResult, Model model) {

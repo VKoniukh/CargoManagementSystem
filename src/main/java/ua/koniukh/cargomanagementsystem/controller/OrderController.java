@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
 import ua.koniukh.cargomanagementsystem.model.Order;
@@ -37,10 +38,6 @@ public class OrderController {
 
     @GetMapping("/order")
     public String orderForm(CargoDTO cargoDTO, OrderDTO orderDTO) {
-//        CargoDTO cargoDTO = new CargoDTO();
-//        OrderDTO orderDTO = new OrderDTO();
-//        model.addAttribute("cargo", cargoDTO);
-//        model.addAttribute("order", orderDTO);
         return "order_form";
     }
 
@@ -57,4 +54,11 @@ public class OrderController {
         }
         return "redirect:/order_page";
     }
+
+    //todo deleting functional
+//    @GetMapping("/order_delete/{id}")
+//    public String deleteOrder(@PathVariable("id") Long id) {
+//        orderService.deleteById(id);
+//        return "redirect:/profile";
+//    }
 }

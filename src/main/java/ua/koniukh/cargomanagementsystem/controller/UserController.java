@@ -43,17 +43,6 @@ public class UserController {
         return "profile";
     }
 
-//    @GetMapping("/user_create")
-//    public String createUserForm(User user) {
-//        return ("user_create");
-//    }
-//
-//    @PostMapping("/user_create")
-//    public String createUser(User user) {
-//        userService.saveUser(user);
-//        return "redirect:/users";
-//    }
-
     @GetMapping("/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);

@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
@@ -32,6 +33,8 @@ public class OrderDTO {
     private boolean packing;
 
     private double declaredValue;
+
+    private BigDecimal price;
 
     @NotNull
     @Enumerated(EnumType.STRING)
