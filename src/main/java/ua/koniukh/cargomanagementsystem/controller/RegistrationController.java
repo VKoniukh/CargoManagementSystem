@@ -1,5 +1,6 @@
 package ua.koniukh.cargomanagementsystem.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,11 +16,12 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    private final UserService userService;
-
+    @Autowired
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
+
+    private final UserService userService;  
 
     @GetMapping("/registration")
     public String registration(UserDTO userDTO) {

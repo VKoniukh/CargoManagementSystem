@@ -40,12 +40,12 @@
                 <td th:text="${order.type}"></td>
                 <td th:text="${order.declaredValue}"></td>
                 <td th:text="${order.packing}"></td>
-                <td th:text="${order.approved}"></td>
+                <td th:text="${order.processed}"></td>
                 <td th:text="${order.orderRate}"></td>
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
-                <form th:action="'/applications/' + ${order.id} + '/approve'" th:method="post">
-                    <td><input type="submit" value="Approve"></td>
+                <form th:action="'/applications/' + ${order.id} + '/processed'" th:method="post">
+                    <td><input type="submit" value="Processed"></td>
 <!--                    <button type="submit" class="btn btn-outline-primary" th:text="#{button.approve}"></button>-->
                 </form>
                 <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Замовлення</title>
+</head>
+<body>
+
+<h1 th:inline="text">Invoice page</h1>
+
+<div th:switch="${invoice}">
+    <h2 th:case="null">There are no generated invoices</h2>
+    <div th:case="*">
+        <h2>Квитанції про оплату замовленя:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Order id</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inv : ${invoice}">
+                <td th:text="${inv.id}"></td>
+                <td th:text="${inv.description}"></td>
+                <td th:text="${inv.order}"></td>
+                <td th:text="${inv.price}"></td>
+
+<!--                //todo CONFIGURATE-->
+                <form th:action="'/invoice/' + ${inv.id} + '/payment'" th:method="post">
+                    <td><input type="submit" value="Pay"></td>
+                    <!--                    <button type="submit" class="btn btn-outline-primary" th:text="#{button.approve}"></button>-->
+                </form>
+            </tr>
+            </tbody>
+        </table>
+        <h2>You can pay now</h2>
+        <p><a href="/profile">Мій профіль</a></p>
+    </div>
+</div>

@@ -28,9 +28,9 @@ public class UserController {
         this.cargoService = cargoService;
     }
 
-    private UserService userService;
-    private OrderService orderService;
-    private CargoService cargoService;
+    private final UserService userService;
+    private final OrderService orderService;
+    private final CargoService cargoService;
 
     @GetMapping("/order_page")
     public String showUserOrders (Model model, Authentication authentication) {

@@ -8,6 +8,7 @@ import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.CargoRepository;
+import ua.koniukh.cargomanagementsystem.repository.InvoiceRepository;
 import ua.koniukh.cargomanagementsystem.repository.OrderRepository;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 
@@ -19,25 +20,31 @@ import java.util.List;
 @Service
 public class OrderService {
 
+    private final InvoiceRepository invoiceRepository;
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final PriceService priceService;
     private final CargoService cargoService;
+    private final InvoiceService invoiceService;
 
-    public OrderService(CargoRepository cargoRepository, UserRepository userRepository, OrderRepository orderRepository, UserService userService, PriceService priceService, CargoService cargoService) {
+    public OrderService(InvoiceRepository invoiceRepository, CargoRepository cargoRepository, UserRepository userRepository,
+                        OrderRepository orderRepository, UserService userService,
+                        PriceService priceService, CargoService cargoService, InvoiceService invoiceService) {
+        this.invoiceRepository = invoiceRepository;
         this.cargoRepository = cargoRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.priceService = priceService;
         this.cargoService = cargoService;
+        this.invoiceService = invoiceService;
     }
 
-    public List<Order> showApprove() {
-        return orderRepository.findAllByApprovedIsTrue();
-    }
+//    public List<Order> showApprove() {
+////        return orderRepository.findAllByApprovedIsTrue();
+//    }
 
     public Order findById(Long id) {
         return orderRepository.getById(id);
@@ -57,6 +64,7 @@ public class OrderService {
                 .cargo(cargo)
                 .date(LocalDate.parse(orderDTO.getDate()))
                 .packing(orderDTO.isPacking())
+                .processed(false)
                 .declaredValue(orderDTO.getDeclaredValue())
                 .price(priceService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
@@ -76,7 +84,7 @@ public class OrderService {
                 .cargo(null)
                 .date(LocalDate.parse(orderDTO.getDate()))
                 .packing(orderDTO.isPacking())
-                .approved(false)
+                .processed(false)
                 .declaredValue(orderDTO.getDeclaredValue())
                 .price(priceService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
@@ -94,33 +102,64 @@ public class OrderService {
     @Transactional
     public void deleteById(Long id) {
         try {
-           if (cargoRepository.existsById(findById(id).getCargo().getId())) {
-               cargoService.deleteById(findById(id).getCargo().getId());
-           }
+            if (cargoRepository.existsById(findById(id).getCargo().getId())) {
+                cargoService.deleteById(findById(id).getCargo().getId());
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        if (orderRepository.existsById(id))
-        orderRepository.deleteById(id);
+
+        try {
+            if (invoiceRepository.existsById(invoiceService.findByOrderId(id).getId())) {
+                invoiceService.deleteById(invoiceService.findByOrderId(id).getId());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (orderRepository.existsById(id))
+                orderRepository.deleteById(id);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
     public void deleteUserById(Long id) {
         User user = userService.findById(id);
-        List<Order> list = new ArrayList<>(user.getOrders());
-        if (list.isEmpty()) {
-            userRepository.deleteById(id);
+        List<Order> list =  new ArrayList<>(user.getOrders());
+        if (list.isEmpty() & userRepository.existsById(userService.findById(id).getId())) {
+            try {
+                userRepository.deleteById(id);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         for (Order order : list) {
             deleteById(order.getId());
         }
-        userRepository.deleteById(id);
+        if (userRepository.existsById(userService.findById(id).getId())) {
+            try {
+                userRepository.deleteById(id);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Transactional
-    public void approveOrder(Long id) {
+    public void processedOrder(Long id) {
         Order order = findById(id);
-        order.setApproved(true);
+        order.setProcessed(true);
+        saveOrder(order);
+    }
+
+    @Transactional
+    public void payInvoice(Long id) {
+        Order order = findById(id);
+        order.setPaid(true);
         saveOrder(order);
     }
 }
+

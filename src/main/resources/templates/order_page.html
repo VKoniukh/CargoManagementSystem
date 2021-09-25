@@ -21,8 +21,8 @@
                 <th>From</th>
                 <th>To</th>
                 <th>Price</th>
-                <th>Approved</th>
-
+                <th>Processed</th>
+                <th>Paid</th>
             </tr>
             </thead>
             <tbody>
@@ -33,17 +33,18 @@
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
                 <td th:text="${order.price}"></td>
-                <td th:text="${order.approved}"></td>
-
+                <td th:text="${order.processed}"></td>
+                <td th:text="${order.paid}"></td>
 
                 <!--                //todo deleting functional-->
                 <!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->
             </tr>
             </tbody>
         </table>
-        <h2>The application will be approved after processing by its manager</h2>
+        <h2>The invoice will be available after the application has been processed by the manager.</h2>
+        <p><a href="/invoice">Квитанції про оплату</a></p>
         <p><a href="/profile">Мій профіль</a></p>
-        <p><a href="/order">Оформити замовлення</a></p>
+        <p><a href="/order">Оформити нове замовлення</a></p>
     </div>
 </div>
 

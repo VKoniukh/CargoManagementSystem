@@ -22,6 +22,9 @@ public class Order {
     @OneToOne
     private Cargo cargo;
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Invoice invoice;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -42,7 +45,9 @@ public class Order {
 
     private boolean packing;
 
-    private boolean approved;
+    private boolean paid;
+
+    private boolean processed;
 
     @Enumerated(EnumType.STRING)
     private OrderRate orderRate;
@@ -52,6 +57,22 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private Route routeTo;
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 
     public Cargo getCargo() {
         return cargo;
@@ -117,12 +138,12 @@ public class Order {
         this.packing = packing;
     }
 
-    public boolean isApproved() {
-        return approved;
+    public boolean isProcessed() {
+        return processed;
     }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public void setProcessed(boolean approved) {
+        this.processed = approved;
     }
 
     public OrderRate getOrderRate() {

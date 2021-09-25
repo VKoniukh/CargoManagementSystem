@@ -24,15 +24,10 @@ import javax.validation.Valid;
 public class MainController {
 
     @Autowired
-    public MainController(UserService userService, OrderService orderService,
-                          PriceService priceService) {
-        this.userService = userService;
-        this.orderService = orderService;
+    public MainController(PriceService priceService) {
         this.priceService = priceService;
     }
 
-    private UserService userService;
-    private OrderService orderService;
     private PriceService priceService;
 
     @GetMapping("/")

@@ -14,6 +14,7 @@ import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ua.koniukh.cargomanagementsystem.model.Role.ADMIN;
 import static ua.koniukh.cargomanagementsystem.model.Role.USER;
 
 
