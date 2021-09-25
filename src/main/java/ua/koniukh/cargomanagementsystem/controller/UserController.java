@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.User;
+import ua.koniukh.cargomanagementsystem.service.CargoService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
@@ -21,12 +22,15 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, OrderService orderService, CargoService cargoService) {
         this.userService = userService;
+        this.orderService = orderService;
+        this.cargoService = cargoService;
     }
 
     private UserService userService;
     private OrderService orderService;
+    private CargoService cargoService;
 
     @GetMapping("/order_page")
     public String showUserOrders (Model model, Authentication authentication) {
@@ -45,10 +49,11 @@ public class UserController {
 
     @GetMapping("/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+        orderService.deleteUserById(id);
         return "redirect:/login";
     }
 
+    //todo mb add DTO function
     @GetMapping("/user_update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);

@@ -10,7 +10,10 @@ import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.UserDTO;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import static ua.koniukh.cargomanagementsystem.model.Role.USER;
 
 
@@ -23,6 +26,7 @@ public class UserService {
     }
 
     private final UserRepository userRepository;
+
 
     public User findById(Long id) {
         return userRepository.getById(id);
@@ -37,13 +41,9 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-     user.setActive(true);
-     user.setRole(Role.USER);
-     saveUser(user);
-    }
-
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        user.setActive(true);
+        user.setRole(Role.USER);
+        saveUser(user);
     }
 
     public User findByUsername(String username) {
@@ -74,7 +74,7 @@ public class UserService {
         return user;
     }
 
-    public List<Order> getCurrentUserOrderList (Authentication authentication) {
+    public List<Order> getCurrentUserOrderList(Authentication authentication) {
         User user = getCurrentUser(authentication);
         return user.getOrders();
     }

@@ -42,6 +42,8 @@ public class Order {
 
     private boolean packing;
 
+    private boolean approved;
+
     @Enumerated(EnumType.STRING)
     private OrderRate orderRate;
 
@@ -113,6 +115,14 @@ public class Order {
 
     public void setPacking(boolean packing) {
         this.packing = packing;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public OrderRate getOrderRate() {

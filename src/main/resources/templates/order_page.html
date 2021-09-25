@@ -21,6 +21,8 @@
                 <th>From</th>
                 <th>To</th>
                 <th>Price</th>
+                <th>Approved</th>
+
             </tr>
             </thead>
             <tbody>
@@ -31,14 +33,17 @@
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
                 <td th:text="${order.price}"></td>
+                <td th:text="${order.approved}"></td>
 
-<!--                //todo deleting functional-->
-<!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->
+
+                <!--                //todo deleting functional-->
+                <!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->
             </tr>
             </tbody>
         </table>
+        <h2>The application will be approved after processing by its manager</h2>
         <p><a href="/profile">Мій профіль</a></p>
-        <p><a href="/order">Оформити замовлення</a> </p>
+        <p><a href="/order">Оформити замовлення</a></p>
     </div>
 </div>
 
