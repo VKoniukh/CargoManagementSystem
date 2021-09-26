@@ -42,6 +42,11 @@ public class UserService {
     }
 
     public void updateUser(User user) {
+        if(user.getRole() == Role.ADMIN) {
+            user.setActive(true);
+            user.setRole(Role.ADMIN);
+            saveUser(user);
+        }
         user.setActive(true);
         user.setRole(Role.USER);
         saveUser(user);

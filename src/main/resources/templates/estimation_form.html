@@ -8,11 +8,11 @@
 
 <form action="#" th:action="@{/estimation}" th:object="${orderDTO}" method="post">
 
-    <label for="date">Date (dd.mm.yyyy)</label>
-    <input type="date" th:field="*{date}" id="date" placeholder="Date">
-    <div style="color:red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Name Error</div>
-    <br/>
-    <h1 th:inline="text">Для кореспонденции не нужно заполнять поля с габаритами.</h1>
+    <select name="orderRate">
+        <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
+                th:value="${orderRate}" th:text="${orderRate}">
+        </option>
+    </select>
 
     <select name="routeFrom">
         <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
@@ -23,12 +23,6 @@
     <select name="routeTo">
         <option th:each="routeTo : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
                 th:value="${routeTo}" th:text="${routeTo}">
-        </option>
-    </select>
-
-    <select name="orderRate">
-        <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
-                th:value="${orderRate}" th:text="${orderRate}">
         </option>
     </select>
 
@@ -52,5 +46,7 @@
     <input type="number" th:field="*{cargoDTO.width}" id="width"/>
     <input type="submit" value="Створити замовлення">
 </form>
+<p><a href="/">Головна сторінка</a></p>
+<p><a href="/registration">Зареєструйтесь для оформлення замовлення</a> </p>
 </body>
 </html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<body>
+
+<h1 th:inline="text">Сторінка управління замовленнями</h1>
+<h1 th:inline="text">Неопрацьовані заявки:</h1>
+<div th:switch="${NotProcessedOrders}">
+    <h2 th:case="null">No orders found</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th>Application date</th>
+                <th>Order id</th>
+                <th>Type</th>
+                <th>User id</th>
+                <th>Username</th>
+                <th>Delivery date</th>
+                <th>Rate</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Packing</th>
+                <th>Declared value</th>
+                <th>Processed</th>
+                <th>Price</th>
+                <th>Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${NotProcessedOrders}">
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.type}"></td>
+                <td th:text="${order.user.id}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.deliveryDate}"></td>
+                <td th:text="${order.orderRate}"></td>
+                <td th:text="${order.routeFrom}"></td>
+                <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.packing}"></td>
+                <td th:text="${order.declaredValue}"></td>
+                <td th:text="${order.processed}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.orderPaid}"></td>
+                <form th:action="'/applications/' + ${order.id} + '/processed'" th:method="post">
+                    <td><input type="submit" value="Processed"></td>
+                </form>
+                <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h1 th:inline="text">Опрацьовані заявки:</h1>
+<div th:switch="${ProcessedOrders}">
+    <h2 th:case="null">No orders found</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th>Application date</th>
+                <th>Order id</th>
+                <th>Type</th>
+                <th>User id</th>
+                <th>Username</th>
+                <th>Date</th>
+                <th>Rate</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Packing</th>
+                <th>Declared value</th>
+                <th>Processed</th>
+                <th>Price</th>
+                <th>Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${ProcessedOrders}">
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.type}"></td>
+                <td th:text="${order.user.id}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.deliveryDate}"></td>
+                <td th:text="${order.orderRate}"></td>
+                <td th:text="${order.routeFrom}"></td>
+                <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.packing}"></td>
+                <td th:text="${order.declaredValue}"></td>
+                <td th:text="${order.processed}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.invoice.paid}"></td>
+                </form>
+                <form th:action="'/processed_applications' + ${order.id} + '/delete'" th:method="post">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+        <p><a href="/profile">Сторінка адміністратора</a></p>
+    </div>
+</div>
+</body>
+</html>
+

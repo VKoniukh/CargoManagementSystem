@@ -9,6 +9,7 @@ import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.repository.InvoiceRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,5 +79,12 @@ public class InvoiceService {
     public List<Invoice> getCurrentUserInvoiceList(Authentication authentication) {
         User user = userService.getCurrentUser(authentication);
         return user.getInvoices();
+    }
+
+    @Transactional
+    public void payInvoice(Long id) {
+        Invoice invoice = findById(id);
+        invoice.setPaid(true);
+        saveInvoice(invoice);
     }
 }

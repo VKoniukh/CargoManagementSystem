@@ -24,15 +24,14 @@ public class OrderDTO {
 
     private CargoDTO cargoDTO;
 
-    @NotEmpty(message = "Date should not be empty")
-    private String date;
-
     @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
     private String type;
 
     private boolean packing;
 
     private double declaredValue;
+
+    private LocalDate possibleDeliveryDate;
 
     private BigDecimal price;
 

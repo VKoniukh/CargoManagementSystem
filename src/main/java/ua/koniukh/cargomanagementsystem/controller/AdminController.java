@@ -6,10 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ua.koniukh.cargomanagementsystem.model.Invoice;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.service.InvoiceService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,13 +30,17 @@ public class AdminController {
     private final InvoiceService invoiceService;
 
     @GetMapping("/applications")
-    public String getAllNotApprovedOrders(Model model) {
+    public String getAllNotProcessedOrders(Model model) {
         List<Order> allOrderListFromDB = orderService.findAll();
         List<Order> OrderListFromDB = allOrderListFromDB.stream()
                 .filter(order -> !order.isProcessed())
                 .collect(Collectors.toList());
-        model.addAttribute("OrderListFromDB", OrderListFromDB);
-        return "not_approved_orders";
+        List<Order> ProcessedOrderListFromDB = allOrderListFromDB.stream()
+                .filter(Order::isProcessed)
+                .collect(Collectors.toList());
+        model.addAttribute("NotProcessedOrders", OrderListFromDB);
+        model.addAttribute("ProcessedOrders", ProcessedOrderListFromDB);
+        return "orders_processed_page";
     }
 
     @PostMapping("/applications/{id}/processed")
@@ -46,14 +54,20 @@ public class AdminController {
 
     @PostMapping("/applications/{id}/delete")
     public String deleteUserOrder(@PathVariable(value = "id") Long id, Model model) {
-        orderService.deleteById(id);
+//        orderService.deleteById(id);
         return "redirect:/applications";
     }
 
 
-//    @GetMapping("/approved")
-//    public String getAllApprovedOrders(Model model) {
-//        model.addAttribute("OrderListFromDB", orderService.showApprove());
-//        return "//todo";
+//    @GetMapping("/filter")
+//    public String filter(String keyword, Model model) {
+//        List<Order> orderList = orderService.findAll();
+//        if (keyword != null) {
+//            orderList = orderService.findByKeyword(keyword);
+//            model.addAttribute("filteredOrders", orderList);
+//        } else {
+//            model.addAttribute("filteredOrders", orderList);
+//        }
+//        return "filter_page";
 //    }
 }

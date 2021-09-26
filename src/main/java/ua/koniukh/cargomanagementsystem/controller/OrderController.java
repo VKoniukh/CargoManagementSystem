@@ -21,6 +21,7 @@ import ua.koniukh.cargomanagementsystem.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class OrderController {
@@ -61,7 +62,14 @@ public class OrderController {
     @GetMapping("/invoice")
     public String paymentPage (Model model, Authentication authentication) {
         List<Invoice> invoiceList = invoiceService.getCurrentUserInvoiceList(authentication);
-        model.addAttribute("invoice", invoiceList);
+        List<Invoice> InvoiceListFromDB = invoiceList.stream()
+                .filter(invoice -> !invoice.isPaid())
+                .collect(Collectors.toList());
+        List<Invoice> PaidInvoiceListFromDB = invoiceList.stream()
+                .filter(Invoice::isPaid)
+                .collect(Collectors.toList());
+        model.addAttribute("invoice", InvoiceListFromDB);
+        model.addAttribute("paidInvoice", PaidInvoiceListFromDB);
         return "payment_page";
     }
 
@@ -69,14 +77,8 @@ public class OrderController {
     public String payment(@PathVariable(value = "id") Long id, Model model) {
         Invoice invoice = invoiceService.findById(id);
         //todo mb merge;
-        orderService.payInvoice(id);
-        return "redirect:/order_page";
+        orderService.invoiceWasPaid(id);
+        invoiceService.payInvoice(id);
+        return "redirect:/invoice";
     }
-
-    //todo deleting functional
-//    @GetMapping("/order_delete/{id}")
-//    public String deleteOrder(@PathVariable("id") Long id) {
-//        orderService.deleteById(id);
-//        return "redirect:/profile";
-//    }
 }

@@ -8,27 +8,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.koniukh.cargomanagementsystem.model.Cargo;
-import ua.koniukh.cargomanagementsystem.model.Order;
-import ua.koniukh.cargomanagementsystem.model.OrderRate;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
-import ua.koniukh.cargomanagementsystem.service.CargoService;
-import ua.koniukh.cargomanagementsystem.service.OrderService;
-import ua.koniukh.cargomanagementsystem.service.PriceService;
-import ua.koniukh.cargomanagementsystem.service.UserService;
+import ua.koniukh.cargomanagementsystem.service.CalculationService;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @Controller
 public class MainController {
 
     @Autowired
-    public MainController(PriceService priceService) {
-        this.priceService = priceService;
+    public MainController(CalculationService calculationService) {
+        this.calculationService = calculationService;
     }
 
-    private PriceService priceService;
+    private CalculationService calculationService;
 
     @GetMapping("/")
     public String homePage() {
@@ -43,10 +38,11 @@ public class MainController {
     @PostMapping("/estimation")
     public String estimation(@ModelAttribute @Valid OrderDTO orderDTO, BindingResult bindingResult, Authentication authentication, Model model) {
         if (bindingResult.hasErrors()) {
-            return "order_form";
+            return "estimation_form";
         }
-        orderDTO.setPrice(priceService.calculatePrice(orderDTO));
+        orderDTO.setPrice(calculationService.calculatePrice(orderDTO));
+        orderDTO.setPossibleDeliveryDate(LocalDate.now().plusDays(calculationService.routeToDate(orderDTO.getRouteFrom(), orderDTO.getRouteTo())));
         model.addAttribute("order", orderDTO);
-        return "evaluated_page";
+            return "evaluated_page";
     }
 }

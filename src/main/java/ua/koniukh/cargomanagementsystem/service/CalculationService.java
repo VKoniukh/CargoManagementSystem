@@ -1,6 +1,7 @@
 package ua.koniukh.cargomanagementsystem.service;
 
 import org.springframework.stereotype.Service;
+import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.OrderRate;
 import ua.koniukh.cargomanagementsystem.model.Route;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
@@ -8,7 +9,7 @@ import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import java.math.BigDecimal;
 
 @Service
-public class PriceService {
+public class CalculationService {
 
     public BigDecimal weightToPrice(double weightValue) {
         double interimResult;
@@ -114,5 +115,46 @@ public class PriceService {
                 break;
         }
         return priceResult = priceFrom.add(priceTo);
+    }
+
+    public long routeToDate (Route routeFrom, Route routeTo) {
+        float dayFrom = 0;
+        float dayTo = 0;
+        long finalResult = 0;
+
+        if (routeFrom.name().equals(routeTo.name())) {
+            finalResult = 1;
+        } else {
+            switch (routeFrom.getDeliveryZone()) {
+                case 1:
+                    dayFrom = 1;
+
+                case 2:
+                    dayFrom = 1.5F;
+                    break;
+                case 3:
+                    dayFrom = 2;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (routeTo.getDeliveryZone()) {
+                case 1:
+                    dayTo = 1;
+
+                case 2:
+                    dayTo = 1.5F;
+                    break;
+                case 3:
+                    dayTo = 2;
+                    break;
+                default:
+                    break;
+            }
+            float floatResult = dayFrom + dayTo;
+            finalResult = Math.round(floatResult);
+        }
+        return finalResult;
     }
 }

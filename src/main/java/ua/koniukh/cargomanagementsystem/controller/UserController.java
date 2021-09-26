@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Order;
+import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.service.CargoService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
@@ -42,14 +43,19 @@ public class UserController {
     @GetMapping("/profile")
     public String userProfile(Model model, Authentication authentication) {
         UserDetails user = ((UserDetails) authentication.getPrincipal());
-        User user1 = userService.findByUsername(user.getUsername());
-        model.addAttribute("user", user1);
-        return "profile";
+        User currentUser = userService.findByUsername(user.getUsername());
+        if (currentUser.getRole().equals(Role.ADMIN) & currentUser.getUsername().equals("admin")) {
+            model.addAttribute("admin", currentUser);
+            return "redirect:/applications";
+        } else {
+            model.addAttribute("user", currentUser);
+            return "profile";
+        }
     }
 
     @GetMapping("/user_delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        orderService.deleteUserById(id);
+//        orderService.deleteUserById(id);
         return "redirect:/login";
     }
 

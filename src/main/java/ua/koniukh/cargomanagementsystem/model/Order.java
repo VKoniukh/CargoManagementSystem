@@ -35,8 +35,9 @@ public class Order {
 
     private BigDecimal price;
 
-    //todo create custom validator
-    private LocalDate date;
+    private LocalDate orderDate;
+
+    private LocalDate deliveryDate;
 
     @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
     private String type;
@@ -45,7 +46,7 @@ public class Order {
 
     private boolean packing;
 
-    private boolean paid;
+    private boolean orderPaid;
 
     private boolean processed;
 
@@ -58,6 +59,14 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Route routeTo;
 
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
     public Invoice getInvoice() {
         return invoice;
     }
@@ -66,12 +75,12 @@ public class Order {
         this.invoice = invoice;
     }
 
-    public boolean isPaid() {
-        return paid;
+    public boolean isOrderPaid() {
+        return orderPaid;
     }
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
+    public void setOrderPaid(boolean orderPaid) {
+        this.orderPaid = orderPaid;
     }
 
     public Cargo getCargo() {
@@ -106,12 +115,12 @@ public class Order {
         this.price = price;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setOrderDate(LocalDate date) {
+        this.orderDate = date;
     }
 
     public String getType() {

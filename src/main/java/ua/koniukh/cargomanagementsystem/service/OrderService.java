@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.model.Cargo;
+import ua.koniukh.cargomanagementsystem.model.Invoice;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
@@ -25,25 +26,25 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final UserService userService;
-    private final PriceService priceService;
+    private final CalculationService calculationService;
     private final CargoService cargoService;
     private final InvoiceService invoiceService;
 
     public OrderService(InvoiceRepository invoiceRepository, CargoRepository cargoRepository, UserRepository userRepository,
                         OrderRepository orderRepository, UserService userService,
-                        PriceService priceService, CargoService cargoService, InvoiceService invoiceService) {
+                        CalculationService calculationService, CargoService cargoService, InvoiceService invoiceService) {
         this.invoiceRepository = invoiceRepository;
         this.cargoRepository = cargoRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.userService = userService;
-        this.priceService = priceService;
+        this.calculationService = calculationService;
         this.cargoService = cargoService;
         this.invoiceService = invoiceService;
     }
 
-//    public List<Order> showApprove() {
-////        return orderRepository.findAllByApprovedIsTrue();
+//    public List<Order> findByKeyword(String keyword) {
+//        return orderRepository.findByKeyword(keyword);
 //    }
 
     public Order findById(Long id) {
@@ -62,11 +63,12 @@ public class OrderService {
         Order order = Order.builder()
                 .user(userService.getCurrentUser(authentication))
                 .cargo(cargo)
-                .date(LocalDate.parse(orderDTO.getDate()))
+                .orderDate(LocalDate.now())
                 .packing(orderDTO.isPacking())
                 .processed(false)
+                .deliveryDate(null)
                 .declaredValue(orderDTO.getDeclaredValue())
-                .price(priceService.calculatePrice(orderDTO))
+                .price(calculationService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
@@ -82,11 +84,12 @@ public class OrderService {
         Order order = Order.builder()
                 .user(userService.getCurrentUser(authentication))
                 .cargo(null)
-                .date(LocalDate.parse(orderDTO.getDate()))
+                .orderDate(LocalDate.now())
                 .packing(orderDTO.isPacking())
+                .deliveryDate(null)
                 .processed(false)
                 .declaredValue(orderDTO.getDeclaredValue())
-                .price(priceService.calculatePrice(orderDTO))
+                .price(calculationService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
@@ -98,55 +101,58 @@ public class OrderService {
         return order;
     }
 
-    //todo write own exeption
-    @Transactional
-    public void deleteById(Long id) {
-        try {
-            if (cargoRepository.existsById(findById(id).getCargo().getId())) {
-                cargoService.deleteById(findById(id).getCargo().getId());
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (invoiceRepository.existsById(invoiceService.findByOrderId(id).getId())) {
-                invoiceService.deleteById(invoiceService.findByOrderId(id).getId());
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (orderRepository.existsById(id))
-                orderRepository.deleteById(id);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Transactional
-    public void deleteUserById(Long id) {
-        User user = userService.findById(id);
-        List<Order> list =  new ArrayList<>(user.getOrders());
-        if (list.isEmpty() & userRepository.existsById(userService.findById(id).getId())) {
-            try {
-                userRepository.deleteById(id);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-        for (Order order : list) {
-            deleteById(order.getId());
-        }
-        if (userRepository.existsById(userService.findById(id).getId())) {
-            try {
-                userRepository.deleteById(id);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    //todo write own exeption + CONFIGURATE DELETION FUNCTIONAL
+//    @Transactional
+//    public void deleteById(Long orderId, User user) {
+//        List<Invoice> invoiceList = new ArrayList<>(user.getInvoices());
+//        if (userRepository.existsById(user.getId())) {
+//            try {
+//                userRepository.deleteById(user.getId());
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            if (orderRepository.existsById(orderId) & findById(orderId).getCargo().getId() == 0) {
+//                orderRepository.deleteById(orderId);
+//            } else if (cargoRepository.existsById(findById(orderId).getCargo().getId())) {
+//                cargoService.deleteById(findById(orderId).getCargo().getId());
+//            }
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//        if (!invoiceList.isEmpty()) {
+//            for (Invoice invoice : invoiceList) {
+//                if (invoiceRepository.existsById(invoice.getId())) {
+//                    invoiceRepository.deleteById(invoice.getId());
+//                }
+//            }
+//        }
+//
+////        try {
+////            if (invoiceRepository.existsById(invoiceService.findByOrderId(id).getId())) {
+////                invoiceService.deleteById(invoiceService.findByOrderId(id).getId());
+////            }
+////        } catch (NullPointerException e) {
+////            e.printStackTrace();
+////        }
+//    }
+//
+//    @Transactional
+//    public void deleteUserById(Long id) {
+//        User user = userService.findById(id);
+//        List<Order> orderList = new ArrayList<>(user.getOrders());
+//        if (orderList.isEmpty() & userRepository.existsById(userService.findById(id).getId())) {
+//            try {
+//                userRepository.deleteById(id);
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        for (Order order : orderList) {
+//            deleteById(order.getId(), user);
+//        }
+//    }
 
     @Transactional
     public void processedOrder(Long id) {
@@ -156,9 +162,10 @@ public class OrderService {
     }
 
     @Transactional
-    public void payInvoice(Long id) {
+    public void invoiceWasPaid(Long id) {
         Order order = findById(id);
-        order.setPaid(true);
+        order.setOrderPaid(true);
+        order.setDeliveryDate(LocalDate.now().plusDays(calculationService.routeToDate(order.getRouteFrom(), order.getRouteTo())));
         saveOrder(order);
     }
 }
