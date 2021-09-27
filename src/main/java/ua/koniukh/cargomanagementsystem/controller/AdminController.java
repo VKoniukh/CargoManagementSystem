@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.koniukh.cargomanagementsystem.model.Invoice;
 import ua.koniukh.cargomanagementsystem.model.Order;
+import ua.koniukh.cargomanagementsystem.model.Route;
+import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.service.InvoiceService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 
@@ -59,15 +61,38 @@ public class AdminController {
     }
 
 
-//    @GetMapping("/filter")
-//    public String filter(String keyword, Model model) {
-//        List<Order> orderList = orderService.findAll();
-//        if (keyword != null) {
-//            orderList = orderService.findByKeyword(keyword);
-//            model.addAttribute("filteredOrders", orderList);
-//        } else {
-//            model.addAttribute("filteredOrders", orderList);
-//        }
-//        return "filter_page";
-//    }
+    @GetMapping("/filter_page")
+    public String filterPage(OrderDTO orderDTO, Model model) {
+        List<Order> orderList = orderService.findAll();
+        model.addAttribute("orders", orderList);
+        return "filter_page";
+    }
+
+    @PostMapping("/filter_page")
+    public String filter(OrderDTO orderDTO, Model model) {
+        List<Order> orderList = orderService.findAll();
+        if (orderDTO.isPaid()) {
+            List<Order> OrderListFromDB = orderList.stream()
+                    .filter(Order::isOrderPaid)
+                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
+                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
+                    .collect(Collectors.toList());
+            model.addAttribute("orders", OrderListFromDB);
+            return "filter_page";
+        } else if (orderDTO.isUnPaidForFilter()) {
+            List<Order> OrderListFromDB = orderList.stream()
+                    .filter(order -> !order.isOrderPaid())
+                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
+                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
+                    .collect(Collectors.toList());
+            model.addAttribute("orders", OrderListFromDB);
+            return "filter_page";
+        }
+            List<Order> OrderListFromDB = orderList.stream()
+                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
+                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
+                    .collect(Collectors.toList());
+        model.addAttribute("orders", OrderListFromDB);
+        return "filter_page";
+    }
 }

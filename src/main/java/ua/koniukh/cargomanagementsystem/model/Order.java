@@ -42,6 +42,9 @@ public class Order {
     @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
     private String type;
 
+    @Size(min = 4, max = 60, message = "Please write delivery address")
+    private String deliveryAddress;
+
     private double declaredValue;
 
     private boolean packing;

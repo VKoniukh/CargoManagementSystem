@@ -1,67 +1,43 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Доставка грузов</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Сайт компании по доставке грузов</h1>
-<!--<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>-->
-    <div class="header-bg">
-        <img src="images/header-title.png" alt="Картинка личного кабинета"
-             width="456" height="166">
-        <p><a href="/profile">Особистий кабінет</a> </p>
-        <p><a href="/registration">Реєстрація</a> </p>
-    </div>
-<div class="content-gradient">
-    <div class="content-bg">
-        <div class="content-white">
-            <p> ІНФОРМАЦІЯ НА САЙТІ
-                у веб-застосунку
-                існують ролі: Користувач, Авторизований користувач, Менеджер.
-                На сайті компанії доставки вантажів розміщено інформацію про напрямки доставки,
-                а також про тарифи. Незареєстрований користувач може переглядати інформацію
-                на сайті, відсортувавши чи відфільтрувавши
-                її за напрямами доставки, а також має можливість
-                самостійно розрахувати вартість послуг.
-                </p>
+<header th:insert="parts/navbar :: header"></header>
+<h1>
+    <div class="container mt-5" th:text="#{greeting}"></div>
+</h1>
+<h1 class="container mt-5">Сайт компании по доставке грузов</h1>
+<div class="header-bg">
+    <p><a href="/profile">Особистий кабінет</a></p>
+    <p><a href="/registration">Реєстрація</a></p>
+    <p><a href="/estimation">Щоб здійснити прорахунок</a></p>
+    <!-- todo ><p>Щоб переглянути напрямки та тарифи доставки перейдіть по <a href="/users">посиланню</a> </p>-->
 
-            <div class="header-bg">
-                <img src="images/header-title.png" alt="Картинка Напрямки руху"
-                     width="456" height="166">
-                <!-- todo ><p>Щоб переглянути напрямки доставки перейдіть по <a href="/users">посиланню</a> </p>-->
-            </div>
+<div class="container mt-5">
+    <p> У веб-застосунку існують ролі: Користувач, Авторизований користувач, Менеджер.
+        На сайті компанії доставки вантажів розміщено інформацію про напрямки доставки,
+        а також про тарифи. Незареєстрований користувач може переглядати інформацію
+        на сайті, а також має можливість самостійно розрахувати вартість послуг за допомогою калькулятора вартості доставки.
+    </p>
 
-                <p>Авторизований користувач може створити заявку на доставку вантажу і вказати адресу доставки.
-                    Заявка містить інформацію про тип багажу, вагу, об’єм і дату отримання.
-                    Менеджер опрацьовує заявки і формує квитанції до сплати, а також може
-                    отримувати звіти щодо доставок (по днях та напрямках).
-                    Авторизований користувач в своєму кабінеті може сплатити квитанцію на доставку.</p>
-            </section>
-            <div class="header-bg">
-                <img src="images/header-title.png" alt="Картинка для тарифів"
-                     width="456" height="166">
-               <!-- todo > <p>Щоб переглянути тарифи перейдіть по <a href="/users">посиланню</a> </p>-->
-            </div>
-
-            <div class="header-bg">
-                <img src="images/header-title.png" alt="Прорахунок"
-                     width="456" height="166">
-                <p><a href="/estimation">Щоб здійснити прорахунок</a> </p>
-                <!-- todo > <p>Щоб здійснити прорахунок доставки перейдіть по <a href="/users">посиланню</a> </p>-->
-            </div>
-
-        </div>
-    </div>
+    <p> Авторизований користувач може створити заявку на доставку вантажу і вказати адресу доставки.
+        Заявка містить інформацію про тариф, напрям доставки, тип багажу, вагу і габарити. Також користувач зазначає чи потрібне пакування і оголошену вартість.
+        Система автоматично генерує та встановлює замовленню ціну.
+        Менеджер опрацьовує заявки і формує квитанції до сплати, а також може
+        фільтрувати замовлення (по напрямках та оплаті).
+        Авторизований користувач в своєму кабінеті може сплатити квитанцію на доставку, внаслідок чого у замовлення сформується
+        дата доставки, яка також залежатиме від маршруту доставки.
+    </p>
 </div>
-<footer>
-    <img src="images/lion.png" alt="" width="130" height="80" class="lion">
-    <div class="footer-bg">
-        <div class="copyright">
-            <p><strong>Cargo Management System</strong></p>
-        </div>
-    </div>
-</footer>
+<div class="container mt-5">
+    <p><strong>Cargo Management System</strong></p>
+</div>
+</div>
 </body>
 </html>

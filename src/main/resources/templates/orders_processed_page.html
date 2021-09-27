@@ -27,6 +27,7 @@
                 <th>Rate</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Address</th>
                 <th>Packing</th>
                 <th>Declared value</th>
                 <th>Processed</th>
@@ -45,6 +46,7 @@
                 <td th:text="${order.orderRate}"></td>
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.deliveryAddress}">
                 <td th:text="${order.packing}"></td>
                 <td th:text="${order.declaredValue}"></td>
                 <td th:text="${order.processed}"></td>
@@ -78,6 +80,7 @@
                 <th>Rate</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Address</th>
                 <th>Packing</th>
                 <th>Declared value</th>
                 <th>Processed</th>
@@ -96,6 +99,7 @@
                 <td th:text="${order.orderRate}"></td>
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.deliveryAddress}">
                 <td th:text="${order.packing}"></td>
                 <td th:text="${order.declaredValue}"></td>
                 <td th:text="${order.processed}"></td>
@@ -108,7 +112,7 @@
             </tr>
             </tbody>
         </table>
-        <p><a href="/profile">Сторінка адміністратора</a></p>
+        <p><a href="/filter_page">Сторінка пошуку заявок</a></p>
     </div>
 </div>
 </body>

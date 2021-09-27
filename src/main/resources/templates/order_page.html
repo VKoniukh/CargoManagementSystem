@@ -16,10 +16,12 @@
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Type</th>
                 <th>Delivery date</th>
                 <th>Rate</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Address</th>
                 <th>Price</th>
                 <th>Processed</th>
                 <th>Paid</th>
@@ -28,13 +30,15 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.id}"></td>
+                <td th:text="${order.type}">
                 <td th:text="${order.deliveryDate}"></td>
                 <td th:text="${order.orderRate}"></td>
                 <td th:text="${order.routeFrom}"></td>
                 <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.deliveryAddress}">
                 <td th:text="${order.price}"></td>
                 <td th:text="${order.processed}"></td>
-                <td th:text="${order.orderPaid}"></td>
+                <td th:text="${order.orderPaid}"></td>deliveryAddress
 
                 <!--                //todo deleting functional-->
                 <!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->

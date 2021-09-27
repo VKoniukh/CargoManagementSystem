@@ -3,10 +3,7 @@ package ua.koniukh.cargomanagementsystem.service;
 import com.sun.istack.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import ua.koniukh.cargomanagementsystem.model.Cargo;
-import ua.koniukh.cargomanagementsystem.model.Invoice;
-import ua.koniukh.cargomanagementsystem.model.Order;
-import ua.koniukh.cargomanagementsystem.model.User;
+import ua.koniukh.cargomanagementsystem.model.*;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.CargoRepository;
 import ua.koniukh.cargomanagementsystem.repository.InvoiceRepository;
@@ -43,9 +40,18 @@ public class OrderService {
         this.invoiceService = invoiceService;
     }
 
-//    public List<Order> findByKeyword(String keyword) {
-//        return orderRepository.findByKeyword(keyword);
-//    }
+    public List<Order> findByDeliveryDate(LocalDate localDate) {
+        return orderRepository.findByDeliveryDate(localDate);
+    }
+    public List<Order> findByRouteFrom(Route route) {
+        return orderRepository.findByRouteFrom(route);
+    }
+    public List<Order> findByRouteTo(Route route) {
+        return orderRepository.findByRouteTo(route);
+    }
+    public List<Order> findByOrderPaidIsTrueOrOrderPaidIsFalse() {
+        return orderRepository.findByOrderPaidIsTrueOrOrderPaidIsFalse();
+    }
 
     public Order findById(Long id) {
         return orderRepository.getById(id);
@@ -70,6 +76,7 @@ public class OrderService {
                 .declaredValue(orderDTO.getDeclaredValue())
                 .price(calculationService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
+                .deliveryAddress(orderDTO.getDeliveryAddress())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
                 .routeTo(orderDTO.getRouteTo())
@@ -91,6 +98,7 @@ public class OrderService {
                 .declaredValue(orderDTO.getDeclaredValue())
                 .price(calculationService.calculatePrice(orderDTO))
                 .type(orderDTO.getType())
+                .deliveryAddress(orderDTO.getDeliveryAddress())
                 .orderRate(orderDTO.getOrderRate())
                 .routeFrom(orderDTO.getRouteFrom())
                 .routeTo(orderDTO.getRouteTo())

@@ -2,6 +2,8 @@ package ua.koniukh.cargomanagementsystem.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.logging.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/applications","/processed_applications","/filter").hasAuthority("ADMIN")
-                .antMatchers("/", "/registration", "/login", "/estimation").permitAll()
+                .antMatchers("/", "/registration", "/login", "/estimation","/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
