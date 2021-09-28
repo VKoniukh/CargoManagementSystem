@@ -2,15 +2,17 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Створити замовлення</title>
+    <title th:text="#{makeOrder}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
 <form action="#" th:action="@{/estimation}" th:object="${orderDTO}" method="post">
-
     <select name="orderRate">
         <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
-                th:value="${orderRate}" th:text="${orderRate}">
+                th:value="${orderRate}"  th:text="${orderRate}">
         </option>
     </select>
 
@@ -26,27 +28,30 @@
         </option>
     </select>
 
-    <label for="declaredValue">Заявлена вартість</label>
+    <label for="declaredValue" th:text="#{declaredValue}"></label>
     <input type="number" th:field="*{declaredValue}" id="declaredValue" placeholder="Declared Valuee">
 
-    <label for="packing">Пакування</label>
+    <label for="packing" th:text="#{packing}"></label>
     <input type="checkbox" th:field="*{packing}" id="packing" placeholder="packing" value="true">
 
-    <label for="Type">Type</label>
+    <label for="deliveryAddress" th:text="#{deliveryAddress}"></label>
+    <input type="text" th:field="*{deliveryAddress}" id="deliveryAddress"/>
+    <div style="color:red" th:if="${#fields.hasErrors('deliveryAddress')}" th:errors="*{deliveryAddress}">Name Error</div>
+    <br/>
+    <label for="Type" th:text="#{type}"></label>
     <input type="text" th:field="*{type}" id="type"/>
     <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error</div>
     <br/>
-    <label for="weight">weight</label>
+    <label for="weight" th:text="#{weight}"></label>
     <input type="number" th:field="*{cargoDTO.weight}" id="weight"/>
-    <label for="length">length</label>
+    <label for="length" th:text="#{length}"></label>
     <input type="number" th:field="*{cargoDTO.length}" id="length"/>
-    <label for="height">height</label>
+    <label for="height" th:text="#{height}"></label>
     <input type="number" th:field="*{cargoDTO.height}" id="height"/>
-    <label for="width">width</label>
+    <label for="width" th:text="#{width}"></label>
     <input type="number" th:field="*{cargoDTO.width}" id="width"/>
     <input type="submit" value="Створити замовлення">
 </form>
-<p><a href="/">Головна сторінка</a></p>
-<p><a href="/registration">Зареєструйтесь для оформлення замовлення</a> </p>
+<p><a href="/profile">Мій профіль</a></p>
 </body>
 </html>
