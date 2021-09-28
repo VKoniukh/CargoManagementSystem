@@ -1,39 +1,50 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registration</title>
+    <title th:text="#{registration}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-Registration new user
-<div th:switch="${message}">
-    User exists!
-</div>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form action="#" th:action="@{/registration}" method="post" th:object="${userDTO}">
-    <label for="username">Enter name: </label>
-    <input type="text" th:field="*{username}" id="username"/>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
-    <br/>
-    <label for="username">Enter name: </label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
-    <br/>
 
-<!--    <div><label> User Name : <input type="text" name="username"/> </label></div>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>-->
-<!--    <br/>-->
-<!--    <div><label> Password: <input type="password" name="password"/> </label></div>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>-->
-<!--    <br/>-->
-<!--    <div><label> Email : <input type="text" name="email"/> </label></div>-->
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+        <a class="btn btn-outline-primary" href="/registration" th:text="#{button.sign_up}"></a>
+    </nav>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h1 th:text="#{registration}"></h1>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="alert alert-info mt-2" th:if="${param.error}" th:text="#{login.error}"></div>
+    <div class="alert alert-info mt-2" th:if="${param.logout}" th:text="#{login.logout}"></div>
+
+
+    <form action="#" th:action="@{/registration}" method="post" th:object="${userDTO}">
+        <div><label>
+            <label th:text="#{login}" for="username"></label>
+            <input type="text" id="username" name="username" class="form-control"/> </label></div>
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
+        <br/>
+        <div><label>
+            <label th:text="#{password}" for="password"></label>
+            <input type="password" id="password" name="password" class="form-control"/> </label></div>
+        <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
+        <br/>
+        <div>
+            <button name="submit" type="submit" class="btn btn-success" th:text="#{button.sign_in}"></button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

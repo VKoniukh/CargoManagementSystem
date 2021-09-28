@@ -2,42 +2,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <title>Доставка грузов</title>
+    <title th:text="#{main}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-<header th:insert="parts/navbar :: header"></header>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
+        <a class="btn btn-outline-primary" href="/registration" th:text="#{button.sign_up}"></a>
+    </nav>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
 <h1>
     <div class="container mt-5" th:text="#{greeting}"></div>
 </h1>
-<h1 class="container mt-5">Сайт компании по доставке грузов</h1>
-<div class="header-bg">
-    <p><a href="/profile">Особистий кабінет</a></p>
-    <p><a href="/registration">Реєстрація</a></p>
-    <p><a href="/estimation">Щоб здійснити прорахунок</a></p>
-    <!-- todo ><p>Щоб переглянути напрямки та тарифи доставки перейдіть по <a href="/users">посиланню</a> </p>-->
+
+<div class="container mt-5">
+    <a class="btn btn-outline-primary" href="/estimation" th:text="#{button.estimation}"></a>
+</div>
+
+<h1 class="container mt-5" th:text="#{cdmSite}"></h1>
+
+<!-- todo ><p>Щоб переглянути напрямки та тарифи доставки перейдіть по <a href="/users">посиланню</a> </p>-->
 
 <div class="container mt-5">
     <p> У веб-застосунку існують ролі: Користувач, Авторизований користувач, Менеджер.
         На сайті компанії доставки вантажів розміщено інформацію про напрямки доставки,
         а також про тарифи. Незареєстрований користувач може переглядати інформацію
-        на сайті, а також має можливість самостійно розрахувати вартість послуг за допомогою калькулятора вартості доставки.
+        на сайті, а також має можливість самостійно розрахувати вартість послуг за допомогою калькулятора вартості
+        доставки.
     </p>
 
     <p> Авторизований користувач може створити заявку на доставку вантажу і вказати адресу доставки.
-        Заявка містить інформацію про тариф, напрям доставки, тип багажу, вагу і габарити. Також користувач зазначає чи потрібне пакування і оголошену вартість.
+        Заявка містить інформацію про тариф, напрям доставки, тип багажу, вагу і габарити. Також користувач зазначає чи
+        потрібне пакування і оголошену вартість.
         Система автоматично генерує та встановлює замовленню ціну.
         Менеджер опрацьовує заявки і формує квитанції до сплати, а також може
         фільтрувати замовлення (по напрямках та оплаті).
-        Авторизований користувач в своєму кабінеті може сплатити квитанцію на доставку, внаслідок чого у замовлення сформується
+        Авторизований користувач в своєму кабінеті може сплатити квитанцію на доставку, внаслідок чого у замовлення
+        сформується
         дата доставки, яка також залежатиме від маршруту доставки.
     </p>
 </div>
 <div class="container mt-5">
     <p><strong>Cargo Management System</strong></p>
-</div>
 </div>
 </body>
 </html>
