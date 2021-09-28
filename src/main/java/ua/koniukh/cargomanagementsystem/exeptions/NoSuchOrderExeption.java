@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class NoSuchOrderExeption extends Exception {
 
-    LocalDate localDate;
+  LocalDate localDate;
 
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
+  public LocalDate getLocalDate() {
+    return localDate;
+  }
 
-    public NoSuchOrderExeption(String message, LocalDate localDate) {
-        super(message + localDate.toString());
-        this.localDate = localDate;
-    }
+  public NoSuchOrderExeption(String message, LocalDate localDate) {
+    super(message + localDate.toString());
+    this.localDate = localDate;
+  }
 }

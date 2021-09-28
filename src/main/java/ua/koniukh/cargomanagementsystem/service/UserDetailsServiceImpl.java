@@ -8,22 +8,20 @@ import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.config.UserDetailsImpl;
 import ua.koniukh.cargomanagementsystem.model.User;
 
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    public UserDetailsServiceImpl(UserService userService) {
-        this.userService = userService;
-    }
+  @Autowired
+  public UserDetailsServiceImpl(UserService userService) {
+    this.userService = userService;
+  }
 
-    private UserService userService;
+  private UserService userService;
 
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userService.findByUsername(s);
-        UserDetails userDetails = new UserDetailsImpl(user);
-        return userDetails;
-    }
+  @Override
+  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    User user = userService.findByUsername(s);
+    UserDetails userDetails = new UserDetailsImpl(user);
+    return userDetails;
+  }
 }

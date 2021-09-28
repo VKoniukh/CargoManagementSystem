@@ -1,12 +1,9 @@
 package ua.koniukh.cargomanagementsystem.model;
 
-import javax.persistence.Column;
-
-import lombok.*;
-import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 
 import javax.persistence.*;
-
+import lombok.*;
+import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,73 +12,73 @@ import javax.persistence.*;
 @Table(name = "cargos")
 public class Cargo {
 
-    @OneToOne(mappedBy = "cargo", cascade = CascadeType.ALL)
-    private Order order;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @OneToOne(mappedBy = "cargo", cascade = CascadeType.ALL)
+  private Order order;
 
-    private double weight;
+  private double weight;
 
-    private double length;
+  private double length;
 
-    private double height;
+  private double height;
 
-    private double width;
+  private double width;
 
-    public Cargo(CargoDTO cargoDTO) {
-        this.weight = cargoDTO.getWeight();
-        this.length = cargoDTO.getLength();
-        this.height = cargoDTO.getHeight();
-        this.width = cargoDTO.getWidth();
-    }
+  public Cargo(CargoDTO cargoDTO) {
+    this.weight = cargoDTO.getWeight();
+    this.length = cargoDTO.getLength();
+    this.height = cargoDTO.getHeight();
+    this.width = cargoDTO.getWidth();
+  }
 
-    public Order getOrder() {
-        return order;
-    }
+  public Order getOrder() {
+    return order;
+  }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+  public void setOrder(Order order) {
+    this.order = order;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public double getWeight() {
-        return weight;
-    }
+  public double getWeight() {
+    return weight;
+  }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
+  public void setWeight(double weight) {
+    this.weight = weight;
+  }
 
-    public double getLength() {
-        return length;
-    }
+  public double getLength() {
+    return length;
+  }
 
-    public void setLength(double length) {
-        this.length = length;
-    }
+  public void setLength(double length) {
+    this.length = length;
+  }
 
-    public double getHeight() {
-        return height;
-    }
+  public double getHeight() {
+    return height;
+  }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
+  public void setHeight(double height) {
+    this.height = height;
+  }
 
-    public double getWidth() {
-        return width;
-    }
+  public double getWidth() {
+    return width;
+  }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
+  public void setWidth(double width) {
+    this.width = width;
+  }
 }

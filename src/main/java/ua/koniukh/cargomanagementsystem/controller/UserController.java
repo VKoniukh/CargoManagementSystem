@@ -1,5 +1,7 @@
 package ua.koniukh.cargomanagementsystem.controller;
 
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,65 +18,61 @@ import ua.koniukh.cargomanagementsystem.service.CargoService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
-import javax.validation.Valid;
-import java.util.List;
-
 @Controller
 public class UserController {
 
-    @Autowired
-    public UserController(UserService userService, OrderService orderService, CargoService cargoService) {
-        this.userService = userService;
-        this.orderService = orderService;
-        this.cargoService = cargoService;
+  @Autowired
+  public UserController(
+      UserService userService, OrderService orderService, CargoService cargoService) {
+    this.userService = userService;
+    this.orderService = orderService;
+    this.cargoService = cargoService;
+  }
+
+  private final UserService userService;
+  private final OrderService orderService;
+  private final CargoService cargoService;
+
+  @GetMapping("/order_page")
+  public String showUserOrders(Model model, Authentication authentication) {
+    List<Order> orderList = userService.getCurrentUserOrderList(authentication);
+    model.addAttribute("orders", orderList);
+    return "order_page";
+  }
+
+  @GetMapping("/profile")
+  public String userProfile(Model model, Authentication authentication) {
+    UserDetails user = ((UserDetails) authentication.getPrincipal());
+    User currentUser = userService.findByUsername(user.getUsername());
+    if (currentUser.getRole().equals(Role.ADMIN) && currentUser.getUsername().equals("admin")) {
+      model.addAttribute("admin", currentUser);
+      return "redirect:/applications";
+    } else {
+      model.addAttribute("user", currentUser);
+      return "profile";
     }
+  }
 
-    private final UserService userService;
-    private final OrderService orderService;
-    private final CargoService cargoService;
+  @GetMapping("/user_delete/{id}")
+  public String deleteUser(@PathVariable("id") Long id) {
+    //        orderService.deleteUserById(id);
+    return "redirect:/login";
+  }
 
-    @GetMapping("/order_page")
-    public String showUserOrders (Model model, Authentication authentication) {
-        List<Order> orderList = userService.getCurrentUserOrderList(authentication);
-        model.addAttribute("orders", orderList);
-        return "order_page";
+  // todo mb add DTO function
+  @GetMapping("/user_update/{id}")
+  public String updateUserForm(@PathVariable("id") Long id, Model model) {
+    User user = userService.findById(id);
+    model.addAttribute("user", user);
+    return "user_update";
+  }
+
+  @PostMapping("/user_update")
+  public String updateUserForm(@Valid User user, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return "/user_update";
     }
-
-    @GetMapping("/profile")
-    public String userProfile(Model model, Authentication authentication) {
-        UserDetails user = ((UserDetails) authentication.getPrincipal());
-        User currentUser = userService.findByUsername(user.getUsername());
-        if (currentUser.getRole().equals(Role.ADMIN) & currentUser.getUsername().equals("admin")) {
-            model.addAttribute("admin", currentUser);
-            return "redirect:/applications";
-        } else {
-            model.addAttribute("user", currentUser);
-            return "profile";
-        }
-    }
-
-    @GetMapping("/user_delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-//        orderService.deleteUserById(id);
-        return "redirect:/login";
-    }
-
-    //todo mb add DTO function
-    @GetMapping("/user_update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "user_update";
-    }
-
-    @PostMapping("/user_update")
-    public String updateUserForm(@Valid User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "/user_update";
-        } else {
-            userService.updateUser(user);
-        }
-        return "redirect:/profile";
-    }
-
+    userService.updateUser(user);
+    return "redirect:/profile";
+  }
 }

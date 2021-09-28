@@ -1,16 +1,12 @@
 package ua.koniukh.cargomanagementsystem.model;
 
-import com.sun.istack.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,166 +15,173 @@ import java.time.LocalDate;
 @Table(name = "orders")
 public class Order {
 
-    @OneToOne
-    private Cargo cargo;
+  @OneToOne private Cargo cargo;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Invoice invoice;
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Invoice invoice;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    private LocalDate orderDate;
+  private LocalDate orderDate;
 
-    private LocalDate deliveryDate;
+  private LocalDate deliveryDate;
 
-    @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
-    private String type;
+  @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
+  private String type;
 
-    @Size(min = 4, max = 60, message = "Please write delivery address")
-    private String deliveryAddress;
+  @Size(min = 4, max = 60, message = "Please write delivery address")
+  private String deliveryAddress;
 
-    private double declaredValue;
+  private double declaredValue;
 
-    private boolean packing;
+  private boolean packing;
 
-    private boolean orderPaid;
+  private boolean orderPaid;
 
-    private boolean processed;
+  private boolean processed;
 
-    @Enumerated(EnumType.STRING)
-    private OrderRate orderRate;
+  @Enumerated(EnumType.STRING)
+  private OrderRate orderRate;
 
-    @Enumerated(EnumType.STRING)
-    private Route routeFrom;
+  @Enumerated(EnumType.STRING)
+  private Route routeFrom;
 
-    @Enumerated(EnumType.STRING)
-    private Route routeTo;
+  public String getDeliveryAddress() {
+    return deliveryAddress;
+  }
 
-    public LocalDate getDeliveryDate() {
-        return deliveryDate;
-    }
+  public void setDeliveryAddress(String deliveryAddress) {
+    this.deliveryAddress = deliveryAddress;
+  }
 
-    public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
+  @Enumerated(EnumType.STRING)
+  private Route routeTo;
 
-    public Invoice getInvoice() {
-        return invoice;
-    }
+  public LocalDate getDeliveryDate() {
+    return deliveryDate;
+  }
 
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
-    }
+  public void setDeliveryDate(LocalDate deliveryDate) {
+    this.deliveryDate = deliveryDate;
+  }
 
-    public boolean isOrderPaid() {
-        return orderPaid;
-    }
+  public Invoice getInvoice() {
+    return invoice;
+  }
 
-    public void setOrderPaid(boolean orderPaid) {
-        this.orderPaid = orderPaid;
-    }
+  public void setInvoice(Invoice invoice) {
+    this.invoice = invoice;
+  }
 
-    public Cargo getCargo() {
-        return cargo;
-    }
+  public boolean isOrderPaid() {
+    return orderPaid;
+  }
 
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
-    }
+  public void setOrderPaid(boolean orderPaid) {
+    this.orderPaid = orderPaid;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public Cargo getCargo() {
+    return cargo;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setCargo(Cargo cargo) {
+    this.cargo = cargo;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public void setOrderDate(LocalDate date) {
-        this.orderDate = date;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public LocalDate getOrderDate() {
+    return orderDate;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public void setOrderDate(LocalDate date) {
+    this.orderDate = date;
+  }
 
-    public double getDeclaredValue() {
-        return declaredValue;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public void setDeclaredValue(double declaredValue) {
-        this.declaredValue = declaredValue;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public boolean isPacking() {
-        return packing;
-    }
+  public double getDeclaredValue() {
+    return declaredValue;
+  }
 
-    public void setPacking(boolean packing) {
-        this.packing = packing;
-    }
+  public void setDeclaredValue(double declaredValue) {
+    this.declaredValue = declaredValue;
+  }
 
-    public boolean isProcessed() {
-        return processed;
-    }
+  public boolean isPacking() {
+    return packing;
+  }
 
-    public void setProcessed(boolean approved) {
-        this.processed = approved;
-    }
+  public void setPacking(boolean packing) {
+    this.packing = packing;
+  }
 
-    public OrderRate getOrderRate() {
-        return orderRate;
-    }
+  public boolean isProcessed() {
+    return processed;
+  }
 
-    public void setOrderRate(OrderRate orderRate) {
-        this.orderRate = orderRate;
-    }
+  public void setProcessed(boolean approved) {
+    this.processed = approved;
+  }
 
-    public Route getRouteFrom() {
-        return routeFrom;
-    }
+  public OrderRate getOrderRate() {
+    return orderRate;
+  }
 
-    public void setRouteFrom(Route routeFrom) {
-        this.routeFrom = routeFrom;
-    }
+  public void setOrderRate(OrderRate orderRate) {
+    this.orderRate = orderRate;
+  }
 
-    public Route getRouteTo() {
-        return routeTo;
-    }
+  public Route getRouteFrom() {
+    return routeFrom;
+  }
 
-    public void setRouteTo(Route routeTo) {
-        this.routeTo = routeTo;
-    }
+  public void setRouteFrom(Route routeFrom) {
+    this.routeFrom = routeFrom;
+  }
+
+  public Route getRouteTo() {
+    return routeTo;
+  }
+
+  public void setRouteTo(Route routeTo) {
+    this.routeTo = routeTo;
+  }
 }

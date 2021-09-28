@@ -1,83 +1,79 @@
 package ua.koniukh.cargomanagementsystem.model;
 
-
+import java.math.BigDecimal;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
 @Table(name = "invoices")
-
 public class Invoice {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @OneToOne
-    private Order order;
+  @OneToOne private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    private String description;
+  private String description;
 
-    private boolean paid;
+  private boolean paid;
 
-    public boolean isPaid() {
-        return paid;
-    }
+  public boolean isPaid() {
+    return paid;
+  }
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
+  public void setPaid(boolean paid) {
+    this.paid = paid;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public Order getOrder() {
-        return order;
-    }
+  public Order getOrder() {
+    return order;
+  }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+  public void setOrder(Order order) {
+    this.order = order;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 }
