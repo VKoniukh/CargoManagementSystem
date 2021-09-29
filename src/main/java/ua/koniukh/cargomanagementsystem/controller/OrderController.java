@@ -53,16 +53,16 @@ public class OrderController {
     @GetMapping("/invoice")
     public String paymentPage(Model model, Authentication authentication) {
         User user = userService.getCurrentUser(authentication);
-        List<Invoice> paidInvoiceList= invoiceService.getUserInvoiceListByPaidStatus(true, user);
-        List<Invoice> unpaidInvoiceList= invoiceService.getUserInvoiceListByPaidStatus(true, user);
-        model.addAttribute("invoice", paidInvoiceList);
-        model.addAttribute("paidInvoice", unpaidInvoiceList);
+        List<Invoice> unpaidInvoiceList = invoiceService.getUserInvoiceListByPaidStatus(false, user);
+        List<Invoice> paidInvoiceList = invoiceService.getUserInvoiceListByPaidStatus(true, user);
+        model.addAttribute("invoice", unpaidInvoiceList);
+        model.addAttribute("paidInvoice", paidInvoiceList);
         return "payment_page";
     }
 
     @PostMapping("/invoice/{id}/payment")
-    public String payment(@PathVariable(value = "id") Long id, Model model) {
-        orderService.invoiceWasPaid(id);
+    public String payment(@PathVariable(value = "id") Long id) {
+        orderService.invoiceWasPaid(invoiceService.findById(id).getOrder().getId());
         invoiceService.payInvoice(id);
         return "redirect:/invoice";
     }

@@ -53,7 +53,7 @@ public class InvoiceService {
 //    }
 
     public List<Invoice> getUserInvoiceListByPaidStatus(Boolean bool, User user) {
-        if(bool) {
+        if(bool == true) {
             List<Invoice> paidInvoiceList = invoiceRepository.findAllByPaidAndUserId(true, user.getId());
             return paidInvoiceList;
         } List<Invoice> unpaidInvoiceList = invoiceRepository.findAllByPaidAndUserId(false, user.getId());
@@ -75,11 +75,11 @@ public class InvoiceService {
         saveInvoice(invoice);
         return invoice;
     }
-
-    public List<Invoice> getCurrentUserInvoiceList(Authentication authentication) {
-        User user = userService.getCurrentUser(authentication);
-        return user.getInvoices();
-    }
+//
+//    public List<Invoice> getCurrentUserInvoiceList(Authentication authentication) {
+//        User user = userService.getCurrentUser(authentication);
+//        return user.getInvoices();
+//    }
 
     @Transactional
     public void payInvoice(Long id) {
