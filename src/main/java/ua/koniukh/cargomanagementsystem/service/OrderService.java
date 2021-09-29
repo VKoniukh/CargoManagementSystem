@@ -132,7 +132,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void invoiceWasPaid(Long id) {
+    public void orderInvoiceWasPaid(Long id) {
         Order order = findById(id);
         order.setOrderPaid(true);
         order.setDeliveryDate(LocalDate.now().plusDays(calculationService.routeToDate(order.getRouteFrom(), order.getRouteTo())));

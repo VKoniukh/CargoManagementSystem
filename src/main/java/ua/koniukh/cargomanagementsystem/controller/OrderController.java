@@ -62,7 +62,7 @@ public class OrderController {
 
     @PostMapping("/invoice/{id}/payment")
     public String payment(@PathVariable(value = "id") Long id) {
-        orderService.invoiceWasPaid(invoiceService.findById(id).getOrder().getId());
+        orderService.orderInvoiceWasPaid(invoiceService.findById(id).getOrder().getId());
         invoiceService.payInvoice(id);
         return "redirect:/invoice";
     }
