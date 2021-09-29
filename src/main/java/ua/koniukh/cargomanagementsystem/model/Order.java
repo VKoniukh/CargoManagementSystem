@@ -37,6 +37,14 @@ public class Order {
 
     private LocalDate orderDate;
 
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
     private LocalDate deliveryDate;
 
     @Size(min = 3, max = 30, message = "Please write what exactly will be in the parcel")
@@ -53,6 +61,8 @@ public class Order {
 
     private boolean processed;
 
+    private boolean archived;
+
     @Enumerated(EnumType.STRING)
     private OrderRate orderRate;
 
@@ -61,6 +71,14 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private Route routeTo;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 
     public LocalDate getDeliveryDate() {
         return deliveryDate;

@@ -6,10 +6,10 @@
 </head>
 <body>
 <h1 th:inline="text">Сторінка пошуку заявок</h1>
-<div th:switch="${orders}">
+<div th:switch="${nonArchivedOrder}">
     <h2 th:case="null">No orders found</h2>
     <div th:case="*">
-        <form action="#" th:action="@{/filter_page}" th:object="${orderDTO}" method="post">
+        <form action="#" th:action="@{/filter_page/filtered}" th:object="${orderDTO}" method="post">
             <select name="routeFrom">
                 <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
                         th:value="${routeFrom}" th:text="${routeFrom}">
@@ -23,8 +23,6 @@
             </select>
             <label for="paid">Оплачені</label>
             <input type="checkbox" th:field="*{paid}" id="paid" placeholder="paid" value="true">
-            <label for="unPaidForFilter">Неоплачені</label>
-            <input type="checkbox" th:field="*{unPaidForFilter}" id="unPaidForFilter" placeholder="unPaidForFilter" value="false">
             <input type="submit" value="Filter">
         </form>
         <p><a href="/filter_page">Всі заявки</a> </p>
@@ -49,7 +47,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}">
+            <tr th:each="order : ${nonArchivedOrder}">
                 <td th:text="${order.orderDate}"></td>
                 <td th:text="${order.id}"></td>
                 <td th:text="${order.type}"></td>
@@ -65,17 +63,63 @@
                 <td th:text="${order.processed}"></td>
                 <td th:text="${order.price}"></td>
                 <td th:text="${order.orderPaid}"></td>
-
-<!--                <form th:action="'/applications/' + ${order.id} + '/processed'" th:method="post">-->
-<!--                    <td><input type="submit" value="Processed"></td>-->
-<!--                </form>-->
-<!--                <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">-->
-<!--                    <td><input type="submit" value="Delete"></td>-->
-<!--                </form>-->
+                <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">
+                    <td><input type="submit" value="Delete"></td>
+                </form>
             </tr>
             </tbody>
         </table>
         <p><a href="/profile">Сторінка адміністратора</a></p>
+    </div>
+</div>
+
+<h1 th:inline="text">Архів замовлень</h1>
+<div th:switch="${archivedOrder}">
+    <h2 th:case="null">No orders found</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th>Application date</th>
+                <th>Order id</th>
+                <th>Type</th>
+                <th>User id</th>
+                <th>Username</th>
+                <th>Delivery date</th>
+                <th>Rate</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Address</th>
+                <th>Packing</th>
+                <th>Declared value</th>
+                <th>Processed</th>
+                <th>Price</th>
+                <th>Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${archivedOrder}">
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.type}"></td>
+                <td th:text="${order.user.id}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.deliveryDate}"></td>
+                <td th:text="${order.orderRate}"></td>
+                <td th:text="${order.routeFrom}"></td>
+                <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.deliveryAddress}">
+                <td th:text="${order.packing}"></td>
+                <td th:text="${order.declaredValue}"></td>
+                <td th:text="${order.processed}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.orderPaid}"></td>
+                <form th:action="'/filter_page/' + ${order.id} + '/unzip'" th:method="post">
+                    <td><input type="submit" value="Unzip order"></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

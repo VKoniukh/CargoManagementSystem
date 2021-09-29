@@ -105,9 +105,8 @@
                 <td th:text="${order.processed}"></td>
                 <td th:text="${order.price}"></td>
                 <td th:text="${order.invoice.paid}"></td>
-                </form>
-                <form th:action="'/processed_applications' + ${order.id} + '/delete'" th:method="post">
-                    <td><input type="submit" value="Delete"></td>
+                <form th:action="'/applications/' + ${order.id} + '/archive'" th:method="post">
+                    <td><input type="submit" value="To archive"></td>
                 </form>
             </tr>
             </tbody>

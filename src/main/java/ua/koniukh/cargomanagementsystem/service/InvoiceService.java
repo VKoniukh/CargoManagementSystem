@@ -12,6 +12,7 @@ import ua.koniukh.cargomanagementsystem.repository.InvoiceRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceService {
@@ -29,39 +30,38 @@ public class InvoiceService {
         return invoiceRepository.getById(id);
     }
 
-    public Invoice findByOrderId(Long id) {
-        List<Invoice> list = new ArrayList<>(invoiceRepository.findAll());
-        Invoice resultInvoice = new Invoice();
-        for (Invoice invoice : list) {
-            if (invoice.getOrder().getId() == id) {
-                resultInvoice = invoice;
-            }
-        }
-        return resultInvoice;
-    }
+//    public Invoice findByOrderId(Long id) {
+//        List<Invoice> list = new ArrayList<>(invoiceRepository.findAll());
+//        Invoice resultInvoice = new Invoice();
+//        for (Invoice invoice : list) {
+//            if (invoice.getOrder().getId() == id) {
+//                resultInvoice = invoice;
+//            }
+//        }
+//        return resultInvoice;
+//    }
 
-    public List<Invoice> findByUserId(Long id) {
-        List<Invoice> list = new ArrayList<>(invoiceRepository.findAll());
-        List<Invoice> resultList = new ArrayList<>();
-        for (Invoice invoice : list) {
-            if (invoice.getUser().getId() == id) {
-                resultList.add(invoice);
-            }
-        }
-        return resultList;
-    }
+//    public List<Invoice> findByUserId(Long id) {
+//        List<Invoice> list = new ArrayList<>(invoiceRepository.findAll());
+//        List<Invoice> resultList = new ArrayList<>();
+//        for (Invoice invoice : list) {
+//            if (invoice.getUser().getId() == id) {
+//                resultList.add(invoice);
+//            }
+//        }
+//        return resultList;
+//    }
 
-
-    public List<Invoice> findAll() {
-        return invoiceRepository.findAll();
+    public List<Invoice> getUserInvoiceListByPaidStatus(Boolean bool, User user) {
+        if(bool) {
+            List<Invoice> paidInvoiceList = invoiceRepository.findAllByPaidAndUserId(true, user.getId());
+            return paidInvoiceList;
+        } List<Invoice> unpaidInvoiceList = invoiceRepository.findAllByPaidAndUserId(false, user.getId());
+        return unpaidInvoiceList;
     }
 
     public Invoice saveInvoice(Invoice invoice) {
         return invoiceRepository.save(invoice);
-    }
-
-    public void deleteById(Long id) {
-        invoiceRepository.deleteById(id);
     }
 
     public Invoice createInvoice(@NotNull Order order) {

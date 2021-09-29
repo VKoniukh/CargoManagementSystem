@@ -9,17 +9,16 @@ import ua.koniukh.cargomanagementsystem.model.Route;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findAll();
+    List<Order> findByProcessedIsFalse();
 
-    List<Order> findByDeliveryDate(LocalDate localDate);
+    List<Order> findByProcessedIsTrueAndArchivedIsFalse();
 
-    List<Order> findByRouteFrom(Route route);
+    List<Order> findByRouteFromAndRouteToAndOrderPaid(Route routeFrom, Route routeTo, Boolean orderPaid);
 
-    List<Order> findByRouteTo(Route route);
-
-    List<Order> findByOrderPaidIsTrueOrOrderPaidIsFalse();
+    List<Order> findAllByArchived (Boolean bool);
 }

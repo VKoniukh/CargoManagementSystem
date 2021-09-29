@@ -6,18 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ua.koniukh.cargomanagementsystem.model.Invoice;
 import ua.koniukh.cargomanagementsystem.model.Order;
-import ua.koniukh.cargomanagementsystem.model.Route;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.service.InvoiceService;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Controller
 public class AdminController {
@@ -33,66 +28,53 @@ public class AdminController {
 
     @GetMapping("/applications")
     public String getAllNotProcessedOrders(Model model) {
-        List<Order> allOrderListFromDB = orderService.findAll();
-        List<Order> OrderListFromDB = allOrderListFromDB.stream()
-                .filter(order -> !order.isProcessed())
-                .collect(Collectors.toList());
-        List<Order> ProcessedOrderListFromDB = allOrderListFromDB.stream()
-                .filter(Order::isProcessed)
-                .collect(Collectors.toList());
-        model.addAttribute("NotProcessedOrders", OrderListFromDB);
-        model.addAttribute("ProcessedOrders", ProcessedOrderListFromDB);
+        List<Order> processedIsFalseOrders = orderService.findByProcessedIsFalse();
+        List<Order> processedIsTrueOrders = orderService.findByProcessedIsTrueAndArchivedIsFalse();
+        model.addAttribute("NotProcessedOrders", processedIsFalseOrders);
+        model.addAttribute("ProcessedOrders", processedIsTrueOrders);
         return "orders_processed_page";
     }
 
     @PostMapping("/applications/{id}/processed")
-    public String processed(@PathVariable(value = "id") Long id, Model model) {
+    public String processed(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
-        //todo mb merge
         invoiceService.createInvoice(order);
         orderService.processedOrder(id);
         return "redirect:/applications";
     }
 
     @PostMapping("/applications/{id}/delete")
-    public String deleteUserOrder(@PathVariable(value = "id") Long id, Model model) {
-//        orderService.deleteById(id);
+    public String deleteNotProcessedOrder(@PathVariable(value = "id") Long id) {
+        orderService.deleteNotProcessedOrder(id);
         return "redirect:/applications";
+    }
+
+    @PostMapping("/applications/{id}/archive")
+    public String archiveOrders(@PathVariable(value = "id") Long id) {
+        orderService.archiveOrders(id);
+        return "redirect:/applications";
+    }
+
+    @PostMapping("/filter_page/{id}/unzip")
+    public String unzipOrders(@PathVariable(value = "id") Long id) {
+        orderService.unzipOrders(id);
+        return "redirect:/filter_page";
     }
 
 
     @GetMapping("/filter_page")
     public String filterPage(OrderDTO orderDTO, Model model) {
-        List<Order> orderList = orderService.findAll();
-        model.addAttribute("orders", orderList);
+        List<Order> nonArchivedOrderList = orderService.findAllByArchived(false);
+        List<Order> archivedOrderList =orderService.findAllByArchived(true);
+        model.addAttribute("nonArchivedOrder", nonArchivedOrderList);
+        model.addAttribute("archivedOrder", archivedOrderList);
         return "filter_page";
     }
 
-    @PostMapping("/filter_page")
+    @PostMapping("/filter_page/filtered")
     public String filter(OrderDTO orderDTO, Model model) {
-        List<Order> orderList = orderService.findAll();
-        if (orderDTO.isPaid()) {
-            List<Order> OrderListFromDB = orderList.stream()
-                    .filter(Order::isOrderPaid)
-                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
-                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
-                    .collect(Collectors.toList());
-            model.addAttribute("orders", OrderListFromDB);
-            return "filter_page";
-        } else if (orderDTO.isUnPaidForFilter()) {
-            List<Order> OrderListFromDB = orderList.stream()
-                    .filter(order -> !order.isOrderPaid())
-                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
-                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
-                    .collect(Collectors.toList());
-            model.addAttribute("orders", OrderListFromDB);
-            return "filter_page";
-        }
-            List<Order> OrderListFromDB = orderList.stream()
-                    .filter(order -> order.getRouteFrom().equals(orderDTO.getRouteFrom()))
-                    .filter(order -> order.getRouteTo().equals(orderDTO.getRouteTo()))
-                    .collect(Collectors.toList());
-        model.addAttribute("orders", OrderListFromDB);
+        List<Order> filteredByRouteAndOrderPaid = orderService.findByRouteAndOrderPaid(orderDTO.getRouteFrom(), orderDTO.getRouteTo(), orderDTO.isPaid());
+        model.addAttribute("orders", filteredByRouteAndOrderPaid);
         return "filter_page";
     }
 }

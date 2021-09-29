@@ -6,15 +6,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ua.koniukh.cargomanagementsystem.model.Order;
-import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
 import ua.koniukh.cargomanagementsystem.model.dto.UserDTO;
 import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static ua.koniukh.cargomanagementsystem.model.Role.ADMIN;
 import static ua.koniukh.cargomanagementsystem.model.Role.USER;
 
 
@@ -28,37 +25,24 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     public User findById(Long id) {
         return userRepository.getById(id);
-    }
-
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
-    public void updateUser(User user) {
-        if(user.getRole() == Role.ADMIN) {
-            user.setActive(true);
-            user.setRole(Role.ADMIN);
-            saveUser(user);
-        }
-        user.setActive(true);
-        user.setRole(Role.USER);
-        saveUser(user);
-    }
-
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
-//        User foundUser = userRepository.findByUsername(username);
-//        if (foundUser == null) {
-//            throw new UsernameNotFoundException(username);
-//        }
-//        return foundUser;
+    }
+
+    public void updateUser(User user) {
+        User userFromDb = findByUsername(user.getUsername());
+        userFromDb.setFirstname(user.getFirstname());
+        userFromDb.setLastname(user.getLastname());
+        userFromDb.setEmail(user.getEmail());
+        saveUser(userFromDb);
     }
 
     public void signUp(@NotNull UserDTO userDTO) {
