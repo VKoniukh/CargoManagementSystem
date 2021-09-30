@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.*;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
-import ua.koniukh.cargomanagementsystem.service.InvoiceService;
-import ua.koniukh.cargomanagementsystem.service.OrderService;
-import ua.koniukh.cargomanagementsystem.service.UserService;
+import ua.koniukh.cargomanagementsystem.service.impl.InvoiceServiceImpl;
+import ua.koniukh.cargomanagementsystem.service.impl.OrderServiceImpl;
+import ua.koniukh.cargomanagementsystem.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,15 +25,15 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    public OrderController(OrderService orderService, InvoiceService invoiceService, UserService userService) {
-        this.orderService = orderService;
-        this.invoiceService = invoiceService;
-        this.userService = userService;
+    public OrderController(OrderServiceImpl orderServiceImpl, InvoiceServiceImpl invoiceServiceImpl, UserServiceImpl userServiceImpl) {
+        this.orderServiceImpl = orderServiceImpl;
+        this.invoiceServiceImpl = invoiceServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
-    private final OrderService orderService;
-    private final InvoiceService invoiceService;
-    private final UserService userService;
+    private final OrderServiceImpl orderServiceImpl;
+    private final InvoiceServiceImpl invoiceServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
     @GetMapping("/order")
     public String orderForm(CargoDTO cargoDTO, OrderDTO orderDTO) {
@@ -45,16 +45,16 @@ public class OrderController {
         if (bindingResult.hasErrors()) {
             return "order_form";
         }
-        User user = userService.getCurrentUser(authentication);
-        orderService.createOrder(user, orderDTO);
+        User user = userServiceImpl.getCurrentUser(authentication);
+        orderServiceImpl.createOrder(user, orderDTO);
         return "redirect:/order_page";
     }
 
     @GetMapping("/invoice")
     public String paymentPage(Model model, Authentication authentication) {
-        User user = userService.getCurrentUser(authentication);
-        List<Invoice> unpaidInvoiceList = invoiceService.getUserInvoiceListByPaidStatus(false, user);
-        List<Invoice> paidInvoiceList = invoiceService.getUserInvoiceListByPaidStatus(true, user);
+        User user = userServiceImpl.getCurrentUser(authentication);
+        List<Invoice> unpaidInvoiceList = invoiceServiceImpl.getUserInvoiceListByPaidStatus(false, user);
+        List<Invoice> paidInvoiceList = invoiceServiceImpl.getUserInvoiceListByPaidStatus(true, user);
         model.addAttribute("invoice", unpaidInvoiceList);
         model.addAttribute("paidInvoice", paidInvoiceList);
         return "payment_page";
@@ -62,8 +62,8 @@ public class OrderController {
 
     @PostMapping("/invoice/{id}/payment")
     public String payment(@PathVariable(value = "id") Long id) {
-        orderService.orderInvoiceWasPaid(invoiceService.findById(id).getOrder().getId());
-        invoiceService.payInvoice(id);
+        orderServiceImpl.orderInvoiceWasPaid(invoiceServiceImpl.findById(id).getOrder().getId());
+        invoiceServiceImpl.payInvoice(id);
         return "redirect:/invoice";
     }
 }

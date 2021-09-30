@@ -1,7 +1,5 @@
 package ua.koniukh.cargomanagementsystem.model;
 
-import javax.persistence.Column;
-
 import lombok.*;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 

@@ -1,4 +1,4 @@
-package ua.koniukh.cargomanagementsystem.service;
+package ua.koniukh.cargomanagementsystem.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,16 +13,16 @@ import ua.koniukh.cargomanagementsystem.model.User;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    public UserDetailsServiceImpl(UserService userService) {
-        this.userService = userService;
+    public UserDetailsServiceImpl(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userService.findByUsername(s);
+        User user = userServiceImpl.findByUsername(s);
         UserDetails userDetails = new UserDetailsImpl(user);
         return userDetails;
     }

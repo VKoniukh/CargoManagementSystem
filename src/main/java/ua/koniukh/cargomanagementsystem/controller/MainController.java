@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.dto.CargoDTO;
 import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
-import ua.koniukh.cargomanagementsystem.service.CalculationService;
+import ua.koniukh.cargomanagementsystem.service.impl.CalculationServiceImpl;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -19,11 +19,11 @@ import java.time.LocalDate;
 public class MainController {
 
     @Autowired
-    public MainController(CalculationService calculationService) {
+    public MainController(CalculationServiceImpl calculationService) {
         this.calculationService = calculationService;
     }
 
-    private CalculationService calculationService;
+    private CalculationServiceImpl calculationService;
 
     @GetMapping("/")
     public String homePage() {

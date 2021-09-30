@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
-import ua.koniukh.cargomanagementsystem.service.UserService;
+import ua.koniukh.cargomanagementsystem.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,15 +21,15 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @GetMapping("/order_page")
     public String showUserOrders (Model model, Authentication authentication) {
-        List<Order> orderList = userService.getCurrentUserOrderList(authentication);
+        List<Order> orderList = userServiceImpl.getCurrentUserOrderList(authentication);
         model.addAttribute("orders", orderList);
         return "order_page";
     }
@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/profile")
     public String userProfile(Model model, Authentication authentication) {
         UserDetails user = ((UserDetails) authentication.getPrincipal());
-        User currentUser = userService.findByUsername(user.getUsername());
+        User currentUser = userServiceImpl.findByUsername(user.getUsername());
         if (currentUser.getRole().equals(Role.ADMIN)) {
             model.addAttribute("admin", currentUser);
             return "redirect:/applications";
@@ -49,7 +49,7 @@ public class UserController {
 
     @GetMapping("/user_update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        User user = userService.findById(id);
+        User user = userServiceImpl.findById(id);
         model.addAttribute("user", user);
         return "user_update";
     }
@@ -59,7 +59,7 @@ public class UserController {
         if(bindingResult.hasErrors()) {
             return "/user_update";
         } else {
-            userService.updateUser(user);
+            userServiceImpl.updateUser(user);
         }
         return "redirect:/profile";
     }
