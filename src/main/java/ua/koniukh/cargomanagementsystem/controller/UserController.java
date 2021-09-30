@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ua.koniukh.cargomanagementsystem.model.Order;
 import ua.koniukh.cargomanagementsystem.model.Role;
 import ua.koniukh.cargomanagementsystem.model.User;
+import ua.koniukh.cargomanagementsystem.service.impl.OrderServiceImpl;
 import ua.koniukh.cargomanagementsystem.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
@@ -21,17 +22,29 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl) {
+    public UserController(UserServiceImpl userServiceImpl, OrderServiceImpl orderServiceImpl) {
         this.userServiceImpl = userServiceImpl;
+        this.orderServiceImpl = orderServiceImpl;
     }
 
     private final UserServiceImpl userServiceImpl;
+    private final OrderServiceImpl orderServiceImpl;
 
     @GetMapping("/order_page")
     public String showUserOrders (Model model, Authentication authentication) {
-        List<Order> orderList = userServiceImpl.getCurrentUserOrderList(authentication);
-        model.addAttribute("orders", orderList);
+        User user = userServiceImpl.getCurrentUser(authentication);
+        List<Order> unProcessedOrderList = orderServiceImpl.findAllByProcessedAndUserId(false, user.getId());
+        List<Order> processedOrderList = orderServiceImpl.findAllByProcessedAndUserId(true, user.getId());
+
+        model.addAttribute("unProcessedOrder", unProcessedOrderList);
+        model.addAttribute("processedOrders", processedOrderList);
         return "order_page";
+    }
+
+    @PostMapping("/order_page/{id}/delete")
+    public String deleteNotProcessedOrder(@PathVariable(value = "id") Long id) {
+        orderServiceImpl.deleteNotProcessedOrder(id);
+        return "redirect:/order_page";
     }
 
     @GetMapping("/profile")

@@ -112,8 +112,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteNotProcessedOrder(Long id) {
-        orderRepository.existsById(findById(id).getId());
-        orderRepository.deleteById(id);
+        if (findById(id).getCargo() == null) {
+            orderRepository.existsById(id);
+            orderRepository.deleteById(id);
+        }
+        orderRepository.existsById(id);
+        cargoService.deleteById(findById(id).getCargo().getId());
     }
 
     @Override
@@ -145,6 +149,11 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderPaid(true);
         order.setDeliveryDate(LocalDate.now().plusDays(calculationService.routeToDate(order.getRouteFrom(), order.getRouteTo())));
         saveOrder(order);
+    }
+
+    @Override
+    public List<Order> findAllByProcessedAndUserId (Boolean bool, long id) {
+        return orderRepository.findAllByProcessedAndUserId(bool, id);
     }
 }
 

@@ -35,4 +35,6 @@ public interface OrderService {
     void processedOrder(Long id);
 
     void orderInvoiceWasPaid(Long id);
+
+    List<Order> findAllByProcessedAndUserId (Boolean bool, long id);
 }

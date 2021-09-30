@@ -20,4 +20,10 @@ public class CargoServiceImpl implements CargoService {
     public Cargo saveCargo(Cargo cargo) {
         return cargoRepository.save(cargo);
     }
+
+    @Override
+    public void deleteById(long id) {
+        cargoRepository.existsById(id);
+        cargoRepository.deleteById(id);
+    }
 }

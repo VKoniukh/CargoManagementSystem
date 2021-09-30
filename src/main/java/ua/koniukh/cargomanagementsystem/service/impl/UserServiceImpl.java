@@ -12,6 +12,7 @@ import ua.koniukh.cargomanagementsystem.repository.UserRepository;
 import ua.koniukh.cargomanagementsystem.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.koniukh.cargomanagementsystem.model.Role.USER;
 

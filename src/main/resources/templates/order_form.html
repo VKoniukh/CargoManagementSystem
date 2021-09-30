@@ -2,102 +2,96 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{makeOrder}"></title>
-    <style>
-        .CORRESPONDENCE {
-            display:none;
-        }
-    </style>
+    <title th:text="#{page.order.form}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
+
+    <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+
 <form action="#" th:action="@{/order}" th:object="${orderDTO}" method="post">
     <div class="form-row">
         <div class="container mt-md-5">
             <div class="form-group col-md-6">
-                <select name="routeFrom">
+                <label for="routeFrom" th:text="#{routeFrom}"></label>
+                <select name="routeFrom" id="routeFrom">
                     <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
                             th:value="${routeFrom}" th:text="${routeFrom}">
 
                     </option>
                 </select>
-                <select name="routeTo">
+                <label for="routeTo" th:text="#{routeTo}"></label>
+                <select name="routeTo" id="routeTo">
                     <option th:each="routeTo : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
                             th:value="${routeTo}" th:text="${routeTo}">
                     </option>
                 </select>
             </div>
-            <div class="form-group col-md-2">
-                <select name="orderRate" id="selector">
+            <div class="list-group">
+            <p class="lead" th:text="#{text.toBase.order}"></p>
+            <p class="lead" th:text="#{text.toCorrespondence.order}"></p>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="orderRate" th:text="#{orderRate}"></label>
+                <select name="orderRate" id="orderRate">
                     <option th:each="orderRate : ${T(ua.koniukh.cargomanagementsystem.model.OrderRate).values()}"
                             th:value="${orderRate}" th:text="${orderRate}">
                     </option>
                 </select>
             </div>
-
-            <div class="hiddenForm">
+            <div>
                 <label for="weight" th:text="#{weight}"></label>
                 <input type="number" th:field="*{cargoDTO.weight}" id="weight"/>
             </div>
-            <div class="hiddenForm">
+            <div>
                 <label for="length" th:text="#{length}"></label>
                 <input type="number" th:field="*{cargoDTO.length}" id="length"/>
             </div>
-            <div class="hiddenForm">
+            <div>
                 <label for="height" th:text="#{height}"></label>
                 <input type="number" th:field="*{cargoDTO.height}" id="height"/>
             </div>
-            <div class="hiddenForm">
+            <div>
                 <label for="width" th:text="#{width}"></label>
                 <input type="number" th:field="*{cargoDTO.width}" id="width"/>
             </div>
-            <div class="form-group">
-                <label for="declaredValue" th:text="#{declaredValue}"></label>
-                <input type="number" th:field="*{declaredValue}" id="declaredValue" placeholder="Declared Valuee">
+            <div class="form-group col-md-2">
+                <div>
+                    <label for="declaredValue" th:text="#{declaredValue}"></label>
+                    <input type="number" th:field="*{declaredValue}" id="declaredValue" placeholder="Declared Value">
+                </div>
+                <div>
+                    <label for="deliveryAddress" th:text="#{deliveryAddress}"></label>
+                    <input type="text" th:field="*{deliveryAddress}" id="deliveryAddress"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('deliveryAddress')}"
+                         th:errors="*{deliveryAddress}">Name Error
+                    </div>
+                    <label for="Type" th:text="#{type}"></label>
+                    <input type="text" th:field="*{type}" id="type"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error
+                    </div>
+                    <div>
+                        <label for="packing" th:text="#{packing}"></label>
+                        <input type="checkbox" th:field="*{packing}" id="packing" placeholder="packing" value="true">
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="packing" th:text="#{packing}"></label>
-                <input type="checkbox" th:field="*{packing}" id="packing" placeholder="packing" value="true">
-            </div>
-
-            <!--    todo-->
-            <!--    <td th:switch="${widget.orderRate}">-->
-            <!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
-            <!--        <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).BASE}"> Заполните поля с габаритами.</span>-->
-            <!--    </td>-->
-            <!--    <div th:switch="${widget.orderRate}">-->
-            <!--    <span th:case="${T(ua.koniukh.cargomanagementsystem.model.OrderRate).CORRESPONDENCE}"-->
-            <!--          style="color: red;">Для кореспонденции не нужно заполнять поля с габаритами.</span>-->
-            <!--    </div>-->
-
-            <label for="deliveryAddress" th:text="#{deliveryAddress}"></label>
-            <input type="text" th:field="*{deliveryAddress}" id="deliveryAddress"/>
-            <div style="color:red" th:if="${#fields.hasErrors('deliveryAddress')}" th:errors="*{deliveryAddress}">
-                Name
-                Error
-            </div>
-            <br/>
-            <label for="Type" th:text="#{type}"></label>
-            <input type="text" th:field="*{type}" id="type"/>
-            <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Name Error</div>
-            <br/>
             <input type="submit" value="Створити замовлення">
         </div>
     </div>
 </form>
-
-<script type="text/javascript">
-    $('#selector').on('change',function()
-    {
-        var divClass = $(this).val();
-        $(".hiddenForm").hide();
-        $("."+divClass).slideDown('medium');
-    });
-
-</script>
 
 </body>
 </html>

@@ -2,16 +2,33 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Замовлення</title>
+    <title th:text="#{page.user.order}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
-<h1 th:inline="text">Ваші замовлення</h1>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
 
-<div th:switch="${orders}">
-    <h2 th:case="null">Замовлень не знайдено</h2>
+    <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
+    <a class="btn btn-outline-primary" href="/invoice" th:text="#{receipts}"></a>
+    <a class="btn btn-outline-primary" href="/order" th:text="#{button.createOrder}"></a>
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+    <a class="btn btn-outline-primary" href="/logout" th:text="#{button.logout}"></a>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+
+<h1 th:inline="text">Сторінка управління замовленнями</h1>
+<h1 th:inline="text">Неопрацьовані заявки:</h1>
+<div th:switch="${unProcessedOrder}">
+    <h2 th:case="null">No orders found</h2>
     <div th:case="*">
-        <h2>Інформація про замовлення</h2>
         <table>
             <thead>
             <tr>
@@ -28,7 +45,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}">
+            <tr th:each="order : ${unProcessedOrder}">
                 <td th:text="${order.id}"></td>
                 <td th:text="${order.type}">
                 <td th:text="${order.deliveryDate}"></td>
@@ -39,17 +56,53 @@
                 <td th:text="${order.price}"></td>
                 <td th:text="${order.processed}"></td>
                 <td th:text="${order.orderPaid}"></td>
-
-                <!--                //todo deleting functional-->
-                <!--                <td><a th:href="@{order_delete/{id}(id=${order.id})}">Delete order</a></td>-->
+                <form th:action="'/order_page/' + ${order.id} + '/delete'" th:method="post">
+                    <td><input type="submit" value="Cancel"></td>
+                </form>
             </tr>
             </tbody>
         </table>
-        <h2>The invoice will be available after the application has been processed by the manager.</h2>
-        <p><a href="/invoice">Квитанції про оплату</a></p>
-        <p><a href="/profile">Мій профіль</a></p>
-        <p><a href="/order">Оформити нове замовлення</a></p>
     </div>
 </div>
+
+<h1>Опрацьовані замовлення</h1>
+<div th:switch="${processedOrders}">
+    <h2 th:case="null">Замовлень не знайдено</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Delivery date</th>
+                <th>Rate</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Address</th>
+                <th>Price</th>
+                <th>Processed</th>
+                <th>Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${processedOrders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.type}">
+                <td th:text="${order.deliveryDate}"></td>
+                <td th:text="${order.orderRate}"></td>
+                <td th:text="${order.routeFrom}"></td>
+                <td th:text="${order.routeTo}"></td>
+                <td th:text="${order.deliveryAddress}">
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.processed}"></td>
+                <td th:text="${order.orderPaid}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2>The invoice will be available after the application has been processed by the manager ++ DELIVERY DATE INF.</h2>
+
 </body>
 </html>

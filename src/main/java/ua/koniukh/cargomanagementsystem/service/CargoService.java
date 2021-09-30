@@ -5,4 +5,6 @@ import ua.koniukh.cargomanagementsystem.model.Cargo;
 public interface CargoService {
 
     Cargo saveCargo(Cargo cargo);
+
+    void deleteById(long id);
 }
