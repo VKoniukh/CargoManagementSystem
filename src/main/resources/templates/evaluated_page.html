@@ -2,36 +2,57 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Замовлення</title>
+    <title th:text="#{valuation.page}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
-<h1 th:inline="text">Розрахунок вартості замовлення</h1>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
 
-<div th:switch="${order}">
-    <h2 th:case="null">Замовлень не знайдено</h2>
-    <div th:case="*">
-        <h2>Ціна становить:</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Possible delivery date</th>
-                <th>Rate</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Price</th>
-            </tr>
-            </thead>
-            <tbody>
+    <a class="btn btn-outline-primary" href="/registration" th:text="#{registration}"></a>
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+    <a class="btn btn-outline-primary" href="/logout" th:text="#{button.logout}"></a>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+
+<div class="container mt-5">
+    <h2 th:text="#{valuation.page}"></h2>
+    <div th:switch="${order}">
+        <h2 th:case="null" th:text="#{no.orders}"></h2>
+        <div th:case="*">
+            <h3 th:text="#{estimated}"></h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Possible delivery date</th>
+                    <th>Rate</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
                 <td th:text="${orderDTO.possibleDeliveryDate}"></td>
                 <td th:text="${orderDTO.orderRate}"></td>
                 <td th:text="${orderDTO.routeFrom}"></td>
                 <td th:text="${orderDTO.routeTo}"></td>
                 <td th:text="${orderDTO.price}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <p><a href="/">Головна</a></p>
-        <p><a href="/registration">Зареєструйтесь для оформлення замовлення</a> </p>
+                </tr>
+                </tbody>
+            </table>
+            <div class="container mt-5">
+                <p class="lead" th:text="#{toPlaceOrder}"></p>
+                <a class="btn btn-outline-primary" href="/registration" th:text="#{registration}"></a>
+            </div>
+        </div>
     </div>
 </div>
+</body>
+</html>

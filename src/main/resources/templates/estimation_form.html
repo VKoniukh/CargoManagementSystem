@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{page.order.form}"></title>
+    <title th:text="#{estimation}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -88,7 +88,9 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Створити замовлення">
+            <div>
+                <button name="submit" type="submit" class="btn btn-success" th:text="#{estimation}"></button>
+            </div>
         </div>
     </div>
 </form>

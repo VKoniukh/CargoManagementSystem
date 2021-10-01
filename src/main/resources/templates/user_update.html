@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<meta charset="UTF-8">
-<title>Update user</title>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{update.page}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
+    <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
+    <a class="btn btn-outline-primary" href="/order_page" th:text="#{button.myOrders}"></a>
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+
 <form action="#" th:action="@{/user_update}" th:object="${user}" method="post">
-  <label for="id">ID</label>
-  <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
-  <br/>
-  <label for="username">User name</label>
-  <input readonly type="text" th:field="*{username}" id="username" placeholder="User name">
-  <br/>
-  <label for="firstname">First name</label>
-  <input type="text" th:field="*{firstname}" id="firstname" placeholder="First Name">
-  <br/>
-  <label for="lastname">Last name</label>
-  <input type="text" th:field="*{lastname}" id="lastname" placeholder="Last Name">
-  <br/>
-  <label for="email">Email</label>
-  <input  type="text" th:field="*{email}" id="email" placeholder="Email">
-  <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
-  <br/>
-  <label for="password">Password</label>
-  <input readonly type="text" th:field="*{password}" id="password" placeholder="Password">
-  <br/>
-  <input type="submit" value="Update User">
+    <div class="form-row">
+        <div class="container mt-md-5">
+            <div class="form-group col-md-6">
+                <label for="id" th:text="#{id}"></label>
+                <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
+                <br/>
+                <label for="username" th:text="#{user.name}"></label>
+                <input readonly type="text" th:field="*{username}" id="username" placeholder="User name">
+                <br/>
+                <label for="firstname" th:text="#{first.name}"></label>
+                <input type="text" th:field="*{firstname}" id="firstname" placeholder="First Name">
+                <br/>
+                <label for="lastname" th:text="#{last.name}"></label>
+                <input type="text" th:field="*{lastname}" id="lastname" placeholder="Last Name">
+                <br/>
+                <label for="email" th:text="#{email}"></label>
+                <input type="text" th:field="*{email}" id="email" placeholder="Email">
+                <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
+                <br/>
+                <label for="password" th:text="#{password}"></label>
+                <input readonly type="text" th:field="*{password}" id="password" placeholder="Password">
+                <br/>
+                <div>
+                    <button name="submit" type="submit" class="btn btn-success" th:text="#{button.updateUser}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 </body>
 </html>

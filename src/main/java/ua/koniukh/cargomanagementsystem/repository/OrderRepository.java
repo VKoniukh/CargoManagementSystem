@@ -15,7 +15,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByProcessedIsTrueAndArchivedIsFalse();
 
-    List<Order> findByRouteFromAndRouteToAndOrderPaid(Route routeFrom, Route routeTo, Boolean orderPaid);
+    List<Order> findByArchivedAndOrderPaidAndRouteFromAndRouteTo(Boolean bool, Boolean orderPaid, Route routeFrom, Route routeTo);
 
     List<Order> findAllByArchived (Boolean bool);
 

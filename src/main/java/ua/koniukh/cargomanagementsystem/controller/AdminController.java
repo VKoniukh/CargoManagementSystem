@@ -73,8 +73,10 @@ public class AdminController {
 
     @PostMapping("/filter_page/filtered")
     public String filter(OrderDTO orderDTO, Model model) {
-        List<Order> filteredByRouteAndOrderPaid = orderServiceImpl.findByRouteAndOrderPaid(orderDTO.getRouteFrom(), orderDTO.getRouteTo(), orderDTO.isPaid());
-        model.addAttribute("orders", filteredByRouteAndOrderPaid);
+        List<Order> filteredByRouteAndOrderPaidAndArchived1 = orderServiceImpl.getByArchivedAndOrderPaidAndRouteFromAndRouteTo(false, orderDTO.isPaid(), orderDTO.getRouteFrom(), orderDTO.getRouteTo());
+        List<Order> filteredByRouteAndOrderPaidAndArchived2 = orderServiceImpl.getByArchivedAndOrderPaidAndRouteFromAndRouteTo(true, orderDTO.isPaid(), orderDTO.getRouteFrom(), orderDTO.getRouteTo());
+        model.addAttribute("nonArchivedOrder", filteredByRouteAndOrderPaidAndArchived1);
+        model.addAttribute("archivedOrder", filteredByRouteAndOrderPaidAndArchived2);
         return "filter_page";
     }
 }

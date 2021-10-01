@@ -2,125 +2,151 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title th:text="#{filter.page}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1 th:inline="text">Сторінка пошуку заявок</h1>
-<div th:switch="${nonArchivedOrder}">
-    <h2 th:case="null">No orders found</h2>
-    <div th:case="*">
-        <form action="#" th:action="@{/filter_page/filtered}" th:object="${orderDTO}" method="post">
-            <select name="routeFrom">
-                <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
-                        th:value="${routeFrom}" th:text="${routeFrom}">
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+        [[${#httpServletRequest.remoteUser}]]</h5>
 
-                </option>
-            </select>
-            <select name="routeTo">
-                <option th:each="routeTo : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
-                        th:value="${routeTo}" th:text="${routeTo}">
-                </option>
-            </select>
-            <label for="paid">Оплачені</label>
-            <input type="checkbox" th:field="*{paid}" id="paid" placeholder="paid" value="true">
-            <input type="submit" value="Filter">
-        </form>
-        <p><a href="/filter_page">Всі заявки</a> </p>
-        <table>
-            <thead>
-            <tr>
-                <th>Application date</th>
-                <th>Order id</th>
-                <th>Type</th>
-                <th>User id</th>
-                <th>Username</th>
-                <th>Delivery date</th>
-                <th>Rate</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Address</th>
-                <th>Packing</th>
-                <th>Declared value</th>
-                <th>Processed</th>
-                <th>Price</th>
-                <th>Paid</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order : ${nonArchivedOrder}">
-                <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.type}"></td>
-                <td th:text="${order.user.id}"></td>
-                <td th:text="${order.user.username}"></td>
-                <td th:text="${order.deliveryDate}"></td>
-                <td th:text="${order.orderRate}"></td>
-                <td th:text="${order.routeFrom}"></td>
-                <td th:text="${order.routeTo}"></td>
-                <td th:text="${order.deliveryAddress}">
-                <td th:text="${order.packing}"></td>
-                <td th:text="${order.declaredValue}"></td>
-                <td th:text="${order.processed}"></td>
-                <td th:text="${order.price}"></td>
-                <td th:text="${order.orderPaid}"></td>
-                <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">
-                    <td><input type="submit" value="Delete"></td>
-                </form>
-            </tr>
-            </tbody>
-        </table>
-        <p><a href="/profile">Сторінка адміністратора</a></p>
-    </div>
+    <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+    <a class="btn btn-outline-primary" href="/logout" th:text="#{button.logout}"></a>
+
+    <span th:text="#{lang.change}"></span>:
+    <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+    <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
 </div>
 
-<h1 th:inline="text">Архів замовлень</h1>
-<div th:switch="${archivedOrder}">
-    <h2 th:case="null">No orders found</h2>
-    <div th:case="*">
-        <table>
-            <thead>
-            <tr>
-                <th>Application date</th>
-                <th>Order id</th>
-                <th>Type</th>
-                <th>User id</th>
-                <th>Username</th>
-                <th>Delivery date</th>
-                <th>Rate</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Address</th>
-                <th>Packing</th>
-                <th>Declared value</th>
-                <th>Processed</th>
-                <th>Price</th>
-                <th>Paid</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order : ${archivedOrder}">
-                <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.type}"></td>
-                <td th:text="${order.user.id}"></td>
-                <td th:text="${order.user.username}"></td>
-                <td th:text="${order.deliveryDate}"></td>
-                <td th:text="${order.orderRate}"></td>
-                <td th:text="${order.routeFrom}"></td>
-                <td th:text="${order.routeTo}"></td>
-                <td th:text="${order.deliveryAddress}">
-                <td th:text="${order.packing}"></td>
-                <td th:text="${order.declaredValue}"></td>
-                <td th:text="${order.processed}"></td>
-                <td th:text="${order.price}"></td>
-                <td th:text="${order.orderPaid}"></td>
-                <form th:action="'/filter_page/' + ${order.id} + '/unzip'" th:method="post">
-                    <td><input type="submit" value="Unzip order"></td>
-                </form>
-            </tr>
-            </tbody>
-        </table>
+<div class="table-bordered">
+    <h2 th:text="#{order.find.management}"></h2>
+    <div th:switch="${nonArchivedOrder}">
+        <h2 th:case="null" th:text="#{no.orders}"></h2>
+        <div th:case="*">
+            <form action="#" th:action="@{/filter_page/filtered}" th:object="${orderDTO}" method="post">
+                <select name="routeFrom">
+                    <option th:each="routeFrom : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
+                            th:value="${routeFrom}" th:text="${routeFrom}">
+                    </option>
+                </select>
+                <select name="routeTo">
+                    <option th:each="routeTo : ${T(ua.koniukh.cargomanagementsystem.model.Route).values()}"
+                            th:value="${routeTo}" th:text="${routeTo}">
+                    </option>
+                </select>
+                <label for="paid" th:text="#{paid}"></label>
+                <input type="checkbox" th:field="*{paid}" id="paid" placeholder="paid" value="true">
+                <button name="submit" type="submit" class="btn btn-success" th:text="#{filter}"></button>
+            </form>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="btn btn-outline-primary" href="/filter_page" th:text="#{all.applications}"></a>
+            </nav>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Application date</th>
+                    <th>Order id</th>
+                    <th>Type</th>
+                    <th>User id</th>
+                    <th>Username</th>
+                    <th>Delivery date</th>
+                    <th>Rate</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Address</th>
+                    <th>Packing</th>
+                    <th>Declared value</th>
+                    <th>Processed</th>
+                    <th>Price</th>
+                    <th>Paid</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${nonArchivedOrder}">
+                    <td th:text="${order.orderDate}"></td>
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.type}"></td>
+                    <td th:text="${order.user.id}"></td>
+                    <td th:text="${order.user.username}"></td>
+                    <td th:text="${order.deliveryDate}"></td>
+                    <td th:text="${order.orderRate}"></td>
+                    <td th:text="${order.routeFrom}"></td>
+                    <td th:text="${order.routeTo}"></td>
+                    <td th:text="${order.deliveryAddress}">
+                    <td th:text="${order.packing}"></td>
+                    <td th:text="${order.declaredValue}"></td>
+                    <td th:text="${order.processed}"></td>
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.orderPaid}"></td>
+                    <form th:action="'/applications/' + ${order.id} + '/delete'" th:method="post">
+                        <td>
+                            <button name="submit" type="submit" class="btn btn-danger"
+                                    th:text="#{button.delete}"></button>
+                        </td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2 th:text="#{order.archive}"></h2>
+    <div th:switch="${archivedOrder}">
+        <h2 th:case="null" th:text="#{no.orders}"></h2>
+        <div th:case="*">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Application date</th>
+                    <th>Order id</th>
+                    <th>Type</th>
+                    <th>User id</th>
+                    <th>Username</th>
+                    <th>Delivery date</th>
+                    <th>Rate</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Address</th>
+                    <th>Packing</th>
+                    <th>Declared value</th>
+                    <th>Processed</th>
+                    <th>Price</th>
+                    <th>Paid</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${archivedOrder}">
+                    <td th:text="${order.orderDate}"></td>
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.type}"></td>
+                    <td th:text="${order.user.id}"></td>
+                    <td th:text="${order.user.username}"></td>
+                    <td th:text="${order.deliveryDate}"></td>
+                    <td th:text="${order.orderRate}"></td>
+                    <td th:text="${order.routeFrom}"></td>
+                    <td th:text="${order.routeTo}"></td>
+                    <td th:text="${order.deliveryAddress}">
+                    <td th:text="${order.packing}"></td>
+                    <td th:text="${order.declaredValue}"></td>
+                    <td th:text="${order.processed}"></td>
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.orderPaid}"></td>
+                    <form th:action="'/filter_page/' + ${order.id} + '/unzip'" th:method="post">
+                        <td>
+                            <button name="submit" type="submit" class="btn btn-warning"
+                                    th:text="#{button.unzip}"></button>
+                        </td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+

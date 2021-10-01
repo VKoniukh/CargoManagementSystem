@@ -7,6 +7,7 @@ import ua.koniukh.cargomanagementsystem.model.dto.OrderDTO;
 import ua.koniukh.cargomanagementsystem.repository.OrderRepository;
 import ua.koniukh.cargomanagementsystem.service.OrderService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
@@ -37,9 +38,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByRouteAndOrderPaid(Route routeFrom, Route routeTo, Boolean orderPaid) {
-        List<Order> resultList = orderRepository.findByRouteFromAndRouteToAndOrderPaid(routeFrom, routeTo, orderPaid);
-        return resultList;
+    public List<Order> getByArchivedAndOrderPaidAndRouteFromAndRouteTo(Boolean bool, Boolean orderPaid, Route routeFrom, Route routeTo){
+        return orderRepository.findByArchivedAndOrderPaidAndRouteFromAndRouteTo(bool,orderPaid,routeFrom,routeTo);
     }
 
     @Override
@@ -112,12 +112,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteNotProcessedOrder(Long id) {
-        if (findById(id).getCargo() == null) {
+        try {
+            if (findById(id).getCargo() == null) {
+                orderRepository.existsById(id);
+                orderRepository.deleteById(id);
+            }
             orderRepository.existsById(id);
-            orderRepository.deleteById(id);
+            cargoService.deleteById(findById(id).getCargo().getId());
+        }catch (EntityNotFoundException exception) {
+            System.out.println("Unfortunately, there was an error:"+ exception.getMessage());
         }
-        orderRepository.existsById(id);
-        cargoService.deleteById(findById(id).getCargo().getId());
     }
 
     @Override

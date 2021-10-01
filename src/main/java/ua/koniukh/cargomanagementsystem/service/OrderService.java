@@ -12,7 +12,7 @@ public interface OrderService {
 
     List<Order> findByProcessedIsTrueAndArchivedIsFalse();
 
-    List<Order> findByRouteAndOrderPaid(Route routeFrom, Route routeTo, Boolean orderPaid);
+    List<Order> getByArchivedAndOrderPaidAndRouteFromAndRouteTo(Boolean bool, Boolean orderPaid, Route routeFrom, Route routeTo);
 
     Order findById(Long id);
 

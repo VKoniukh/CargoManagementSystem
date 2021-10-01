@@ -14,8 +14,6 @@
         [[${#httpServletRequest.remoteUser}]]</h5>
 
     <a class="btn btn-outline-primary" href="/profile" th:text="#{button.profile}"></a>
-    <a class="btn btn-outline-primary" href="/invoice" th:text="#{receipts}"></a>
-    <a class="btn btn-outline-primary" href="/order" th:text="#{button.createOrder}"></a>
     <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
     <a class="btn btn-outline-primary" href="/logout" th:text="#{button.logout}"></a>
 
@@ -24,85 +22,92 @@
     <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
 </div>
 
-<h1 th:inline="text">Сторінка управління замовленнями</h1>
-<h1 th:inline="text">Неопрацьовані заявки:</h1>
-<div th:switch="${unProcessedOrder}">
-    <h2 th:case="null">No orders found</h2>
-    <div th:case="*">
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Delivery date</th>
-                <th>Rate</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Address</th>
-                <th>Price</th>
-                <th>Processed</th>
-                <th>Paid</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order : ${unProcessedOrder}">
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.type}">
-                <td th:text="${order.deliveryDate}"></td>
-                <td th:text="${order.orderRate}"></td>
-                <td th:text="${order.routeFrom}"></td>
-                <td th:text="${order.routeTo}"></td>
-                <td th:text="${order.deliveryAddress}">
-                <td th:text="${order.price}"></td>
-                <td th:text="${order.processed}"></td>
-                <td th:text="${order.orderPaid}"></td>
-                <form th:action="'/order_page/' + ${order.id} + '/delete'" th:method="post">
-                    <td><input type="submit" value="Cancel"></td>
-                </form>
-            </tr>
-            </tbody>
-        </table>
+<div class="container mt-5">
+    <h2 th:text="#{order.management}"></h2>
+    <h3 class="lead" th:text="#{unprocessed.application}"></h3>
+    <div th:switch="${unProcessedOrder}">
+        <h2 th:case="null" th:text="#{no.orders}"></h2>
+        <div th:case="*">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Delivery date</th>
+                    <th>Rate</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Address</th>
+                    <th>Price</th>
+                    <th>Processed</th>
+                    <th>Paid</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${unProcessedOrder}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.type}">
+                    <td th:text="${order.deliveryDate}"></td>
+                    <td th:text="${order.orderRate}"></td>
+                    <td th:text="${order.routeFrom}"></td>
+                    <td th:text="${order.routeTo}"></td>
+                    <td th:text="${order.deliveryAddress}">
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.processed}"></td>
+                    <td th:text="${order.orderPaid}"></td>
+                    <form th:action="'/order_page/' + ${order.id} + '/delete'" th:method="post">
+                        <td><input type="submit" value="Cancel"></td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3 class="lead" th:text="#{processed.application}"></h3>
+    <div th:switch="${processedOrders}">
+        <h2 th:case="null" th:text="#{no.orders}"></h2>
+        <div th:case="*">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Delivery date</th>
+                    <th>Rate</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Address</th>
+                    <th>Price</th>
+                    <th>Processed</th>
+                    <th>Paid</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${processedOrders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.type}">
+                    <td th:text="${order.deliveryDate}"></td>
+                    <td th:text="${order.orderRate}"></td>
+                    <td th:text="${order.routeFrom}"></td>
+                    <td th:text="${order.routeTo}"></td>
+                    <td th:text="${order.deliveryAddress}">
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.processed}"></td>
+                    <td th:text="${order.orderPaid}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="btn btn-outline-primary" href="/order" th:text="#{button.createOrder}"></a>
+                <a class="btn btn-outline-primary" href="/invoice" th:text="#{receipts}"></a>
+            </nav>
+        </div>
     </div>
 </div>
-
-<h1>Опрацьовані замовлення</h1>
-<div th:switch="${processedOrders}">
-    <h2 th:case="null">Замовлень не знайдено</h2>
-    <div th:case="*">
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Delivery date</th>
-                <th>Rate</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Address</th>
-                <th>Price</th>
-                <th>Processed</th>
-                <th>Paid</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order : ${processedOrders}">
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.type}">
-                <td th:text="${order.deliveryDate}"></td>
-                <td th:text="${order.orderRate}"></td>
-                <td th:text="${order.routeFrom}"></td>
-                <td th:text="${order.routeTo}"></td>
-                <td th:text="${order.deliveryAddress}">
-                <td th:text="${order.price}"></td>
-                <td th:text="${order.processed}"></td>
-                <td th:text="${order.orderPaid}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="container mt-md-5">
+<h6 class="lead" th:text="#{processed.information}"></h6>
 </div>
-
-<h2>The invoice will be available after the application has been processed by the manager ++ DELIVERY DATE INF.</h2>
 
 </body>
 </html>
