@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <title th:text="#{main}"></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal" th:inline="text">
+    [[${#httpServletRequest.remoteUser}]]</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="btn btn-outline-primary" href="/" th:text="#{main}"></a>
+    <a class="btn btn-outline-primary" href="/registration" th:text="#{button.sign_up}"></a>
+  </nav>
+
+  <span th:text="#{lang.change}"></span>:
+  <a class="btn btn-outline-primary" href="?lang=en" th:text="#{lang.eng}"></a>
+  <a class="btn btn-outline-primary" href="?lang=ua" th:text="#{lang.ua}"></a>
+</div>
+<h1>
+  <div class="container mt-5" th:text="#{info}"></div>
+</h1>
+
+<div class="container mt-5">
+  <a class="btn btn-outline-primary" href="/estimation" th:text="#{estimation}"></a>
+  <a class="btn btn-outline-primary" href="/order_form" th:text="#{button.createOrder}"></a>
+</div>
+
+
+<h1 class="container mt-5" th:text="#{cdmSite}"></h1>
+
+<div class="container mt-5">
+  <p> Наша компанія здійснює доставку вантажів в межах України по встановленим населеним пунктах.
+    Кожен населений пункт, віднесений до відповідної зони доставки. Зона доставки впливає на ціну доставки та на
+    її строк. Між населеними пунктами, віднесеними до першої зони, доставка здійснюється найшвидше та найдешевше.
+    Перелік напрямів здійснення доставки:
+    КИЇВ (1), ЛЬВІВ (2), ДНІПРО (2), ОДЕСА (2), ХАРКІВ (2),
+    СТАРОКОНСТАНТИНІВ (3), ДУБНО (3), БРОДИ (3), КАЛУШ (3), УМАНЬ (3).
+  </p>
+
+  <p> Доставка здійснюється на базі двох основних тарифів. БАЗОВИЙ та КОРЕСПОНДЕНЦІЯ.
+    Для БАЗОВОГО тарифу необхідно вказати фактичні габарити вантажу. Вагу, довжину, ширину, висоту.
+    Відповдно до вказаних габаритів буде сформовано ціну до оплати доставки. Для тарифу КОРЕСПОНДЕЦІЯ вказувати
+    вищеперелічені дані не потрібно.
+  </p>
+</div>
+<div class="container mt-5">
+  <p><strong>Cargo Management System</strong></p>
+</div>
+</body>
+</html>

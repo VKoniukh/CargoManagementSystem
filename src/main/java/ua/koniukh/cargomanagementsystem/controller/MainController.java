@@ -30,6 +30,11 @@ public class MainController {
         return "home_page";
     }
 
+    @GetMapping("/info")
+    public String info() {
+        return "info_page";
+    }
+
     @GetMapping("/estimation")
     public String estimationForm(CargoDTO cargoDTO, OrderDTO orderDTO) {
         return "estimation_form";
