@@ -22,17 +22,17 @@
 </div>
 <div class="container mt-5">
     <div th:switch="${user}">
-        <h2 th:case="null">No users found!</h2>
+        <h2 th:case="null" th:text="#{no.users}"></h2>
         <div th:case="*">
             <h2 th:text="#{userProfile}"></h2>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>User name</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Email</th>
-                    <th>Password</th>
+                    <th th:text="#{user.name}"></th>
+                    <th th:text="#{first.name}"></th>
+                    <th th:text="#{last.name}"></th>
+                    <th th:text="#{email}"></th>
+                    <th th:text="#{password}"></th>
                 </tr>
                 </thead>
                 <tbody>
