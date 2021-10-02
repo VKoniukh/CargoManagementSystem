@@ -27,7 +27,7 @@ public class MainController {
 
     @GetMapping("/")
     public String homePage() {
-        return "home_page";
+        return "index";
     }
 
     @GetMapping("/info")
