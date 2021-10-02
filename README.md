@@ -20,3 +20,5 @@ Development of Spring Enterprise application with authorizations and access righ
 * Maven
 * MySQL
 * Thymeleaf and HTML\CSS
+
+All components are in the 'src' folder.
