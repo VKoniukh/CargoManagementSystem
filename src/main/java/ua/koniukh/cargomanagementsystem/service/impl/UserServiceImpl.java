@@ -53,8 +53,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(@NotNull UserDTO userDTO) {
-//        String hashPassword = passwordEncoder.encode(userDTO.getPassword());
-//                .hashPassword(hashPassword)
         User user = User.builder()
                 .username(userDTO.getUsername())
                 .password(userDTO.getPassword())

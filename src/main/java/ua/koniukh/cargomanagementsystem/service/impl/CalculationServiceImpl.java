@@ -13,27 +13,29 @@ public class CalculationServiceImpl implements CalculationService {
 
     @Override
     public BigDecimal weightToPrice(double weightValue) {
+        double counter;
         double interimResult;
         BigDecimal priceResult = BigDecimal.valueOf(0);
-        if (weightValue <= 2) {
+        if (weightValue <= 5) {
             return priceResult = BigDecimal.valueOf(30);
-        } else if (weightValue <= 10) {
-            return priceResult = BigDecimal.valueOf(35);
         } else if (weightValue <= 15) {
-            return priceResult = BigDecimal.valueOf(40);
+            return priceResult = BigDecimal.valueOf(35);
         } else if (weightValue <= 25) {
+            return priceResult = BigDecimal.valueOf(40);
+        } else if (weightValue <= 35) {
             return priceResult = BigDecimal.valueOf(45);
-        } else if (weightValue < 40) {
+        } else if (weightValue < 45) {
             return priceResult = BigDecimal.valueOf(50);
-        } else if (weightValue > 41) {
+        } else if (weightValue > 46) {
             interimResult = 50;
+            counter = weightValue;
             do {
                 interimResult += 1.5;
-                weightValue++;
-            } while (weightValue < 200);
+                counter++;
+            } while (counter != weightValue || counter > 400);
             return priceResult = BigDecimal.valueOf(interimResult);
         } else
-            return priceResult = BigDecimal.valueOf(1000);
+            return priceResult = BigDecimal.valueOf(1001);
     }
 
     @Override
@@ -62,8 +64,7 @@ public class CalculationServiceImpl implements CalculationService {
         } else if (orderDTO.getOrderRate() == OrderRate.CORRESPONDENCE) {
             return price = routeToPrice(orderDTO).add(packingCheck(orderDTO).add(declaredValueCheck(orderDTO)));
         } else
-            return price = BigDecimal.valueOf(1000);
-
+            return price = BigDecimal.valueOf(1001);
         return price;
     }
 
