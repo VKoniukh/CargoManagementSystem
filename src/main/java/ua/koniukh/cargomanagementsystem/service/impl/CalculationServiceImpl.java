@@ -16,19 +16,19 @@ public class CalculationServiceImpl implements CalculationService {
         double counter;
         double interimResult;
         BigDecimal priceResult = BigDecimal.valueOf(0);
-        if (weightValue <= 5) {
-            return priceResult = BigDecimal.valueOf(30);
-        } else if (weightValue <= 15) {
+        if (weightValue <= 2) {
             return priceResult = BigDecimal.valueOf(35);
-        } else if (weightValue <= 25) {
+        } else if (weightValue <= 5) {
             return priceResult = BigDecimal.valueOf(40);
-        } else if (weightValue <= 35) {
+        } else if (weightValue <= 15) {
             return priceResult = BigDecimal.valueOf(45);
-        } else if (weightValue < 45) {
+        } else if (weightValue <= 25) {
             return priceResult = BigDecimal.valueOf(50);
-        } else if (weightValue > 46) {
-            interimResult = 50;
-            counter = weightValue;
+        } else if (weightValue < 35) {
+            return priceResult = BigDecimal.valueOf(55);
+        } else if (weightValue > 40) {
+            interimResult = 55;
+            counter = 41;
             do {
                 interimResult += 1.5;
                 counter++;
@@ -95,13 +95,13 @@ public class CalculationServiceImpl implements CalculationService {
 
         switch (orderDTO.getRouteFrom().getDeliveryZone()) {
             case 1:
-                priceFrom = BigDecimal.valueOf(5);
-                break;
-            case 2:
                 priceFrom = BigDecimal.valueOf(10);
                 break;
-            case 3:
+            case 2:
                 priceFrom = BigDecimal.valueOf(15);
+                break;
+            case 3:
+                priceFrom = BigDecimal.valueOf(20);
                 break;
             default:
                 break;
@@ -109,13 +109,13 @@ public class CalculationServiceImpl implements CalculationService {
 
         switch (orderDTO.getRouteTo().getDeliveryZone()) {
             case 1:
-                priceTo = BigDecimal.valueOf(5);
-                break;
-            case 2:
                 priceTo = BigDecimal.valueOf(10);
                 break;
-            case 3:
+            case 2:
                 priceTo = BigDecimal.valueOf(15);
+                break;
+            case 3:
+                priceTo = BigDecimal.valueOf(20);
                 break;
             default:
                 break;

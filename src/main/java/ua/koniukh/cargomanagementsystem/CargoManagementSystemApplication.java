@@ -9,5 +9,4 @@ public class CargoManagementSystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(CargoManagementSystemApplication.class, args);
     }
-
 }
