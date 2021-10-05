@@ -8,9 +8,26 @@ import ua.koniukh.cargomanagementsystem.service.CalculationService;
 
 import java.math.BigDecimal;
 
+/**
+ * <h1>Calculation service</h1>
+ * The Calculation service implements a possibility
+ * of calculating the values necessary for the program needs.
+ * <p>
+ *
+ * @author  VKoniukh
+ * @version 1.0
+ * @since   2021-10-05
+ */
+
 @Service
 public class CalculationServiceImpl implements CalculationService {
 
+    /**
+     * This method generates the part of the price for delivery
+     * that depends on the weight measure that is passed to this function
+     * @param weightValue = the weight measured to that function
+     * @return the big decimal part of price
+     */
     @Override
     public BigDecimal weightToPrice(double weightValue) {
         double counter;
@@ -38,6 +55,14 @@ public class CalculationServiceImpl implements CalculationService {
             return priceResult = BigDecimal.valueOf(1001);
     }
 
+    /**
+     * This method generates a price for the order.
+     * Accepts the OrderDTO argument and calculates the weight index
+     * by comparing the overall weight and the actual weight. By adding
+     * the calculation results of other methods, returns the actual order price.
+     * @param orderDTO = information about order from User
+     * @return the big decimal actual order price
+     */
     @Override
     public BigDecimal calculatePrice(OrderDTO orderDTO) {
 
@@ -68,6 +93,12 @@ public class CalculationServiceImpl implements CalculationService {
         return price;
     }
 
+    /**
+     * This method generates a port of the
+     * total order price that depends on whether the order is to be packed.
+     * @param orderDTO = information about order from User
+     * @return the big decimal part of price
+     */
     @Override
     public BigDecimal packingCheck(OrderDTO orderDTO) {
         BigDecimal priceResult = BigDecimal.valueOf(0);
@@ -77,7 +108,12 @@ public class CalculationServiceImpl implements CalculationService {
             return priceResult;
     }
 
-
+    /**
+     * This method generates a port of the
+     * total order price that depends on whether the order has declared Value.
+     * @param orderDTO = information about order from User
+     * @return the big decimal part of price
+     */
     @Override
     public BigDecimal declaredValueCheck(OrderDTO orderDTO) {
         BigDecimal priceResult = BigDecimal.valueOf(0);
@@ -87,6 +123,12 @@ public class CalculationServiceImpl implements CalculationService {
             return priceResult;
     }
 
+    /**
+     * This method generates a port of the
+     * total order price that depends on order route and zone of the delivery.
+     * @param orderDTO = information about order from User
+     * @return the big decimal part of price
+     */
     @Override
     public BigDecimal routeToPrice(OrderDTO orderDTO) {
         BigDecimal priceFrom = BigDecimal.valueOf(0);
@@ -123,6 +165,14 @@ public class CalculationServiceImpl implements CalculationService {
         return priceResult = priceFrom.add(priceTo);
     }
 
+    /**
+     * This method generates a delivery date that depends on
+     * the parameters (FROM and TO delivery points).
+     * Based on the delivery zones, the actual delivery date is calculated and returned
+     * @param routeFrom = the delivery points where the package was sent
+     * @param routeTo = the delivery points where the package will be received
+     * @return = the long value which represents the number of days needed to deliver the order.
+     */
     @Override
     public long routeToDate (Route routeFrom, Route routeTo) {
         float dayFrom = 0;
